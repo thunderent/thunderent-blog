@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {BlogProvider} from "./context/Context.js";
+import "./components/Dashboard/Dashboard.js";
+import Dashboard from "./components/Dashboard/Dashboard.js";
+
+export default class App extends React.Component {
+  state = {
+    blogObject : {
+      title : "",
+      tag : "",
+      postDate : "",
+      thumbnailLink : "",
+      readDuration : 0,
+      content : ""
+    }
+  }
+  render(){
+    return(
+        <BlogProvider value={this.state.blogObject}>
+            <Dashboard></Dashboard>
+        </BlogProvider>
+    );
+  }
 }
-
-export default App;
