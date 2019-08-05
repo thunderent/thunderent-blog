@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {storage, firestore} from "../firebase";
+
+import BlogContext from "../context/Context";
 
 import "../index.css";
 
 export const ImageUploader = (props) => {
+    const {dispatch} = useContext(BlogContext);
     const [image, setImage] = useState(null);
     
-
     const handleChange = e => {
         if(e.target.files[0]){
             const img = e.target.files[0];
@@ -25,8 +27,11 @@ export const ImageUploader = (props) => {
             alert("Upload failed", error);
         }, 
         () => {
-            storage.ref('images').child(image.name).getDownloadURL().then(
-                url => firestore.collection("images").add({url: url, name : image.name})           
+            
+            storage.ref('images').child(image.name).getDownloadURL().then(url => {
+                    firestore.collection("images").add({url: url, name : image.name});
+                    if(props.saveUploadedUrlToState) dispatch({type:"THUMBNAIL", payload:url});      
+                }    
             )
             alert("Upload successful!");      
         });
@@ -41,5 +46,6 @@ export const ImageUploader = (props) => {
         </div>
     );
 }
+
 
 export default ImageUploader;

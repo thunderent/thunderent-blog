@@ -1,24 +1,71 @@
 import React, {useState, useContext} from 'react';
 import ReactMde from "react-mde";
 import * as Showdown from "showdown";
+import {firestore} from "../../firebase";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import "../../index.css";
 
 import TagsSelector from "../Tags/TagsSelector";
-import TopBar from "../TopBar/TopBar";
 import ImageUploader from '../ImageUploader';
+import SidebarCard from "./SidebarCard";
 
 
-export const Dashboard = (props) => {
+import BlogContext from "../../context/Context";
+import { stat } from 'fs';
+
+export const Dashboard = () => {
+  const {state, dispatch} = useContext(BlogContext);
+
+ 
+
   const [tab, setTab] = useState();
-  const [postData, setPostData] = useState({tag : "none", markdown : "**Hello,Worlds!**"});
+  // TODO - Use default values gathered from the global state in the future
+  const [postData, setPostData] = useState(
+    {
+      blogTitle : state.activePost.title, 
+      description : state.activePost.description, 
+      markdown : state.activePost.content,
+      thumbnail : state.activePost.thumbnail,
+      mainCover : state.activePost.mainCover,
+      mainCoverSource : state.activePost.mainCoverSource
+    }
+  );
+
 
   const handleValueChange = (value) => setPostData({...postData, markdown : value});
+
+  const handleTitleChange = (event) => setPostData({...postData, blogTitle : event.target.value});
+  const handleDescriptionChange = (event) => setPostData({...postData, description : event.target.value});
+  const handleThumbnailChange = (event) => setPostData({...postData, thumbnail : event.target.value});
+  const handleCoverChange = (event) => setPostData({...postData, mainCover : event.target.value});
+  const handleCoverSourceChange = (event) => setPostData({...postData, mainCoverSource : event.target.value});
+
   const handleTabChange = (tab) => setTab(tab);
   
   //Do blog post saving logic here
-  const printValue = () => console.log(1);
+  const savePost = () => {
+    /* The current tag and thumbnail link should've been saved into the central state
+       Gather the content and markdown from the input fields
+       generate a post date when hitting save post
+       parse the content to determine the reading time
+    */
 
+   const blogObject = {
+     title : postData.blogTitle,
+     content : postData.markdown,
+     thumbnail : state.thumbnailLink,
+     tag : state.tag,
+     readDuration : 0,
+     postDate : new Date()
+   }
+    firestore.collection("posts").add(blogObject);
+    console.log(state,dispatch); 
+  }
+
+  /* TODO - Do data validation here */
+  const validateData = () => {
+      return true;
+  }
 
   let converter = new Showdown.Converter({
     tables: true,
@@ -29,14 +76,16 @@ export const Dashboard = (props) => {
 
   return(
     <>
-      <TopBar></TopBar>
       <div className="content">
       
         <h1 className="mainTitle">Create/Edit an Article</h1> 
         <div style={{marginLeft:"50px"}}>
             <h3>Add new Post <i class="fa fa-clipboard" aria-hidden="true"></i></h3>
-            <input className="inputField" type="text" placeholder="Write your blog title..."></input>
-            
+            <input onChange={handleTitleChange} value={postData.blogTitle} className="inputField" type="text" placeholder="Write your blog title..."></input>
+
+            <h5>Post Description <i class="fa fa-sticky-note" aria-hidden="true"></i></h5>
+            <input onChange={handleDescriptionChange} value={postData.description} className="inputField" type="text" placeholder="Write your post description..."></input>
+           
           </div>
       <div style={{display:"flex"}}>
         <div style={{flex:3, marginLeft:"50px", marginTop:"50px"}}>
@@ -54,29 +103,28 @@ export const Dashboard = (props) => {
           </div>
         </div>
 
-        <div style={{flex:1, marginLeft:"50px", marginTop:"50px"}}>
-            <div className="sidebar-card">
-              <div className="sidebar-card-title"><strong>Tags <i class="fa fa-tag" aria-hidden="true"></i></strong></div>
-              <div style={{padding:"10px"}}>
-                <TagsSelector></TagsSelector>
-                The selected tag for this article is : tag
-              </div>
-            </div>
-
-            <div className="sidebar-card">
-              <div className="sidebar-card-title"><strong>Thumbnail <i class="fa fa-bandcamp" aria-hidden="true"></i></strong></div>
-              <div style={{padding:"10px", display:"flex", justifyContent:"space-around"}}>
-                  <ImageUploader></ImageUploader>
-              </div>
-            </div>
-
-            <div className="sidebar-card">
-              <div className="sidebar-card-title"><strong>Options <i class="fa fa-cog" aria-hidden="true"></i></strong></div>
-              <div style={{padding:"10px", display:"flex", justifyContent:"space-around"}}>
-              <a className="actionButton" style={{background:"red"}} onClick={printValue}>Delete Article</a>
-              <a className="actionButton" onClick={printValue}>Publish Article</a>
-              </div>
-            </div>
+        <div style={{flex:1, marginLeft:"50px", marginTop:"50px"}}> 
+            <SidebarCard cardTitle="Tags" cardCSSTag="fa fa-tag">
+                <div style={{padding:"10px"}}>
+                    <TagsSelector></TagsSelector>     
+                  </div>
+            </SidebarCard>
+            <SidebarCard cardTitle="Images" cardCSSTag="fa fa-bandcamp">
+                  <div style={{padding:"10px"}}>
+                        <p>Thumbnail Link</p>
+                          <input onChange={handleThumbnailChange} value={postData.thumbnail} className="inputField" type="text" placeholder="Thumbnail image link..."></input>
+                        <p>Cover Link</p>
+                          <input onChange={handleCoverChange} value={postData.mainCover} className="inputField" type="text" placeholder="Cover image link..."></input>
+                        <p>Cover Source</p>
+                          <input onChange={handleCoverSourceChange} value={postData.mainCoverSource} className="inputField" type="text" placeholder="Cover image sources..."></input>
+                  </div>
+            </SidebarCard>
+            <SidebarCard cardTitle="Options" cardCSSTag="fa fa-cog">
+                  <div style={{padding:"10px", display:"flex", justifyContent:"space-around"}}>
+                    <a className="actionButton" style={{background:"red"}} >Reset Article</a>
+                    <a className="actionButton" onClick={savePost}>Publish Article</a>
+                  </div>
+            </SidebarCard>
         </div>
         </div>
       </div>

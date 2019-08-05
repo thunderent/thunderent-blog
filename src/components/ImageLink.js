@@ -7,7 +7,7 @@ const ImageLink = (props) => {
 
     useEffect(() => {
         setImageName(props.name);
-    },[]);
+    },[props.name]);
 
     const deleteImage = () => {
         console.log("Deleting this image :" + imageName);
