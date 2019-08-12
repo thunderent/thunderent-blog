@@ -4,9 +4,9 @@ import React from 'react';
 const TagElement = (props) => {
     const tagColor = (tag) => {
         switch(tag){
-            case "TECH": return "blue"
-            case "LIFE": return "#ab7d00"
-            case "DEV": return "#adc544"
+            case "TECH": return "#509aab"
+            case "LIFE": return "#52ab50"
+            case "DEV": return "#5446b3"
         }
     }
     return(

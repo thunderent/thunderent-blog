@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import TagElement from "../Tags/TagElement";
 import BlogContext from "../../context/Context";
 import * as Showdown from "showdown";
@@ -45,7 +45,7 @@ const styles = {
     },
     content : {
         width : "45em",
-        margin : "30px auto 90px auto"    
+        margin : "30px auto 90px auto"
     },
     footer : {
         width : "100%",
@@ -60,7 +60,23 @@ const styles = {
 const Article = () => {
     const {state} = useContext(BlogContext);
     const [blogContent, setBlogContent] = useState(converter.makeHtml(state.activePost.content));
+    const [scrollHeight, setScrollHeight] = useState(0);
+    
+    const opacity = Math.min(100 / scrollHeight  , 1);
 
+    const handleScroll = () => {
+        if(scrollHeight<600){
+            var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+            setScrollHeight(scrollTop);
+            console.log(scrollTop);
+        }
+    }
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+    });
 
     return(
         <div>
@@ -73,7 +89,7 @@ const Article = () => {
                 </div>
             </div>
             <div>
-                <img style={styles.coverImage} src="https://picsum.photos/id/452/1920/1080"></img>
+               <div style={{opacity}}> <img style={styles.coverImage} src="https://picsum.photos/id/452/1920/1080"></img></div>
                 <p style={styles.coverSource}><small>Illustration : <a style={{color : "#919191"}} href="#">Five-Gran</a></small></p>
             </div>
             <div style={styles.content} dangerouslySetInnerHTML={{ __html : sanitizeHtml(blogContent)}}></div>
@@ -81,7 +97,7 @@ const Article = () => {
                 <AuthorCard></AuthorCard>
                 <br></br>
             </div>
-            <CommentSection></CommentSection>
+            {/*<CommentSection comments={state.activePost.comments}></CommentSection>*/}
         </div>
     )
 }

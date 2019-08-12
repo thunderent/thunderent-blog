@@ -1,6 +1,6 @@
 import * as React from "react";
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import {useReducer} from 'react';
+import {useReducer, useEffect} from 'react';
 
 
 import {BlogProvider} from "./context/Context.js";
@@ -8,8 +8,11 @@ import "./components/Dashboard/Dashboard.js";
 import Dashboard from "./components/Dashboard/Dashboard.js";
 import MainPage from "./components/MainPage/MainPage";
 import TopBar from "./components/TopBar/TopBar";
+import Footer from "./components/Footer/Footer";
 import Article from "./components/ArticlePage/Article";
-
+import Login from "./components/LoginPage/Login";
+import ProtectedRoute from "./components/LoginPage/ProtectedRoute";
+import { auth } from "./firebase/index.js";
 
 const blogReducer = (state,action) => {
   switch(action.type){
@@ -20,8 +23,9 @@ const blogReducer = (state,action) => {
       case "SET_ACTIVE_POST":
           return({...state, activePost:action.payload});
       case "CREATE_POST":
-          return({...state, activePost:initialState.activePost}
-                )
+          return({...state, activePost:initialState.activePost});
+      case "LOGGED_STATUS":
+          return({...state, loggedIn : action.payload});
       default:
           return state;
   }
@@ -31,17 +35,19 @@ const blogReducer = (state,action) => {
     GET THE POST 
 */
 const initialState = {
+    loggedIn : false,
     listOfArticles : [ 
      {
       title:"This is just another blog post here tomato two",
       date:"01/01/2001",
       thumbnail : "https://picsum.photos/id/559/120/120",
       readDuration : 5,
-      description : "Just another blog article",
+      description : "Gravity in the space station. There are some clever ideas out there with the space stations of the future",
       content : "**Hello,worldly people!**lofkjhfglkjhglkfjghkhkljhlkjh ksjhdsalkjhdsjk",
       tag : "TECH",
       mainCover : "https://picsum.photos/id/452/1920/1080",
-      mainCoverSource : "https://pixabay.com"
+      mainCoverSource : "https://pixabay.com",
+      comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"},{user:"Rix", date:"01/01/1996", content:"I commented here"}]
      },
      {
       title:"This is just another blog post here apple two",
@@ -52,7 +58,8 @@ const initialState = {
       content : "**Hello,world!**",
       tag : "LIFE",
       mainCover : "https://picsum.photos/id/452/1920/1080",
-      mainCoverSource : "https://pixabay.com"
+      mainCoverSource : "https://pixabay.com",
+      comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"},{user:"Rix", date:"01/01/1996", content:"I commented here"}]
      },
      {
          title:"This is just another blog post here apple two",
@@ -63,7 +70,9 @@ const initialState = {
          content : "**Hello,world!**",
          tag : "DEV",
          mainCover : "https://picsum.photos/id/452/1920/1080",
-         mainCoverSource : "https://pixabay.com"
+         mainCoverSource : "https://pixabay.com",
+         comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"},{user:"Rix", date:"01/01/1996", content:"I commented here"}]
+
      },
      {
          title:"This is just another blog post here apple two",
@@ -74,7 +83,8 @@ const initialState = {
          content : "**Hello,world!**",
          tag : "DEV",
          mainCover : "https://picsum.photos/id/452/1920/1080",
-         mainCoverSource : "https://pixabay.com"
+         mainCoverSource : "https://pixabay.com",
+         comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"},{user:"Rix", date:"01/01/1996", content:"I commented here"}]
      }],
      activePost : {
         title:"",
@@ -85,23 +95,37 @@ const initialState = {
         content : "",
         tag : "",
         mainCover : "",
-        mainCoverSource : ""
+        mainCoverSource : "",
+        comments : []
      }
 }
 
-
 const App = () => {
   const [state, dispatch] = useReducer(blogReducer,initialState);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+          console.log(user, "is signed in");
+          dispatch({type:"LOGGED_STATUS", payload:true});
+        } else {
+          console.log("jnope");
+          dispatch({type:"LOGGED_STATUS", payload:false});
+        }
+      });
+  }, []);
   return(
     <BlogProvider value={{state,dispatch}}>
-     <Router>
-      <TopBar></TopBar>
-
-      <Route path="/" exact component={MainPage}></Route>
-      <Route path="/dashboard/" exact component={Dashboard}></Route>
-      <Route path="/article/:id" exact component={Article}></Route>
-
-      </Router>
+      <div className="mainContent">
+        <Router>
+            <TopBar loggedIn={state.loggedIn}></TopBar>      
+            <Route path="/" exact component={MainPage}></Route>
+            <ProtectedRoute path="/dashboard/" exact component={Dashboard}></ProtectedRoute>
+            <Route path="/article/:id" exact component={Article}></Route>
+            <Route path="/login" exact component={Login}></Route>
+        </Router>
+    </div>
+    <Footer></Footer>
     </BlogProvider>
   );
 }

@@ -26,6 +26,7 @@ const CommentSection = (props) => {
           <h2 style={styles.title}>Comments</h2>
           <p>Write a comment <i class="fa fa-comment" aria-hidden="true"></i></p>
           <textarea style={styles.commentInput} rows="2" cols="50" placeholder="Write a comment..."></textarea>
+          {props.comments.map(element => <Comment comment={element}></Comment>)}
         </div>
     )
 }

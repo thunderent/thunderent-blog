@@ -20,7 +20,7 @@ const styles = {
     },
     title: {
         display:"inline-block",
-        fontSize:"18px"
+        fontSize:"20px"
     },
     icon : {
         position:"absolute",
@@ -46,8 +46,8 @@ const styles = {
 }
 
 const PostCard = (props) => {
-    const {dispatch} = useContext(BlogContext);
-    const {title,date,thumbnail,readDuration,description,content,tag} = props.article;
+    const {state, dispatch} = useContext(BlogContext);
+    const {title,date,thumbnail,readDuration,description,tag} = props.article;
     
     const openArticle = () => {
         dispatch({type:"SET_ACTIVE_POST", payload:props.article});
@@ -62,19 +62,19 @@ const PostCard = (props) => {
           <div style={styles.articleContainer}>            
                     <article onClick={openArticle} class="article" style={styles.article}>
                             <img style={styles.thumbnail} src={thumbnail}></img>
-                            <h3 style={styles.title}>{title}</h3>
-                            <p style={styles.p} >{description}</p>
+                            <h2 style={styles.title}>{title}</h2>
+                            <p style={styles.p} ><small>{description}</small></p>
                             <div style={styles.icon}>
-                              <small style={{color:"gray"}}>0<i class="fa fa-comment" aria-hidden="true"></i></small>
+                              {/*<small style={{color:"gray"}}>0<i class="fa fa-comment" aria-hidden="true"></i></small>*/}
                                 <TagElement tag={tag}></TagElement>
                                
                             </div>
 
-                            <p><small><i>{date} | {readDuration} minutes <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            
+                            <p><small><i>{date} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            
                     </article>
-                <span style={styles.editLabel}>  <i  onClick={() => editArticle()} className="fa fa-pencil smallIcon" aria-hidden="true"></i>  
+                {state.loggedIn ?<span style={styles.editLabel}>  <i  onClick={() => editArticle()} className="fa fa-pencil smallIcon" aria-hidden="true"></i>  
                        <i onClick={() => console.log("delete")} className="fa fa-trash smallIcon" aria-hidden="true"></i>
-                </span>        
+                </span> : null}       
         </div>
     )
 }

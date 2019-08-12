@@ -16,7 +16,6 @@ import { stat } from 'fs';
 export const Dashboard = () => {
   const {state, dispatch} = useContext(BlogContext);
 
- 
 
   const [tab, setTab] = useState();
   // TODO - Use default values gathered from the global state in the future
