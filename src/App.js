@@ -26,6 +26,10 @@ const blogReducer = (state,action) => {
           return({...state, activePost:initialState.activePost});
       case "LOGGED_STATUS":
           return({...state, loggedIn : action.payload});
+      case "LOGIN":
+          return({...state, loggedIn : true, loggedUserDisplayName : action.payload}); 
+      case "LOGOUT":
+          return({...state, loggedIn : false, loggedUserDisplayName : ""});
       default:
           return state;
   }
@@ -35,8 +39,21 @@ const blogReducer = (state,action) => {
     GET THE POST 
 */
 const initialState = {
+    loggedUserDisplayName : "",
     loggedIn : false,
-    listOfArticles : [ 
+    listOfArticles : [
+      {
+        title:"This is what happens when you don't pay taxes",
+        date:"01/01/2001",
+        thumbnail : "https://picsum.photos/id/559/120/120",
+        readDuration : 5,
+        description : "Are death and taxes the only two things certain in this world?",
+        content : "**We're not in Kansas anymore, Dorothy!**",
+        tag : "DEV",
+        mainCover : "https://picsum.photos/id/452/1920/1080",
+        mainCoverSource : "https://pixabay.com",
+        comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"}]
+       },
      {
       title:"This is just another blog post here tomato two",
       date:"01/01/2001",
@@ -84,8 +101,9 @@ const initialState = {
          tag : "DEV",
          mainCover : "https://picsum.photos/id/452/1920/1080",
          mainCoverSource : "https://pixabay.com",
-         comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"},{user:"Rix", date:"01/01/1996", content:"I commented here"}]
-     }],
+         comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"}]
+     }
+    ],
      activePost : {
         title:"",
         date:"",
@@ -104,13 +122,17 @@ const App = () => {
   const [state, dispatch] = useReducer(blogReducer,initialState);
 
   useEffect(() => {
+    console.log("This is being called here bro!");
+  },[]);
+  
+  useEffect(() => {
     auth.onAuthStateChanged(user => {
         if (user) {
           console.log(user, "is signed in");
-          dispatch({type:"LOGGED_STATUS", payload:true});
+          dispatch({type:"LOGIN", payload:user.displayName});
         } else {
           console.log("jnope");
-          dispatch({type:"LOGGED_STATUS", payload:false});
+          dispatch({type:"LOGOUT", payload:false});
         }
       });
   }, []);

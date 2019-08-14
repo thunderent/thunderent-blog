@@ -65,12 +65,17 @@ const Article = () => {
     const opacity = Math.min(100 / scrollHeight  , 1);
 
     const handleScroll = () => {
-        if(scrollHeight<600){
-            var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        console.log(scrollHeight);
+          var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+          if(scrollTop<600){
             setScrollHeight(scrollTop);
             console.log(scrollTop);
-        }
-    }
+          }
+
+    };
+
+    useEffect(() => window.scrollTo(0,0), []);
+    
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -97,7 +102,7 @@ const Article = () => {
                 <AuthorCard></AuthorCard>
                 <br></br>
             </div>
-            {/*<CommentSection comments={state.activePost.comments}></CommentSection>*/}
+            {<CommentSection loggedIn={state.loggedIn} comments={state.activePost.comments}></CommentSection>}
         </div>
     )
 }

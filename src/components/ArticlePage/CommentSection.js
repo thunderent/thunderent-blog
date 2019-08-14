@@ -25,7 +25,13 @@ const CommentSection = (props) => {
         <div style={styles.container}>
           <h2 style={styles.title}>Comments</h2>
           <p>Write a comment <i class="fa fa-comment" aria-hidden="true"></i></p>
+          <ul>
+              <li>Please keep things civil and respectful</li>
+              <li>I will remove any comments which represent spam</li>
+          </ul>
+          {props.loggedIn ? <>
           <textarea style={styles.commentInput} rows="2" cols="50" placeholder="Write a comment..."></textarea>
+          <button> Post</button> </> : <small>You have to be logged in to post a comment.</small>}
           {props.comments.map(element => <Comment comment={element}></Comment>)}
         </div>
     )

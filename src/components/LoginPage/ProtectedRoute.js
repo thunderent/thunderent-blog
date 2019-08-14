@@ -5,11 +5,12 @@ import {Route, Redirect} from 'react-router-dom';
 const ProtectedRoute = ({ component: Component, ...rest }) => {
     const {state} = useContext(BlogContext);
     const { loggedIn } = state;
+
     return (
         <Route {...rest} render={props => (
           loggedIn ? (<Component {...props} />) : (
             <Redirect to={{
-              pathname: '/login',
+              pathname: '/',
               state: { from: props.location }
             }} />
           )

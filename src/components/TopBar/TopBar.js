@@ -9,7 +9,7 @@ import { auth } from '../../firebase/index';
 
 
 const TopBar = (props) => { 
-    const {dispatch} = useContext(BlogContext);
+    const {state,dispatch} = useContext(BlogContext);
     const [imageMenuOpen, setImageMenuDisplayStatus] = useState(false); 
     
     const closeMenuModal = () => {
@@ -17,7 +17,7 @@ const TopBar = (props) => {
     }
 
     const logOut = () => {
-        dispatch({type:"LOGGED_STATUS", payload:false});
+        dispatch({type:"LOGOUT"});
         auth.signOut().then(() => alert("Logged out! Have a nice day!"));
     }
 
@@ -28,6 +28,7 @@ const TopBar = (props) => {
             <h4 style={{margin:0}}>Full-Stack Citizen Blog</h4>
 
             <div className="smallMenu">
+            {props.loggedIn ? <span>Logged in as : {state.loggedUserDisplayName} </span> : null} 
             <a href="#" className="topBarIcon"><Link to="/"><i className="fa fa-home" aria-hidden="true"></i></Link></a>
             {props.loggedIn ? <a className="topBarIcon"><Link to="/dashboard/" ><i onClick={() => dispatch({type:"CREATE_POST"})} className="fa fa-plus-circle" aria-hidden="true"></i></Link></a> : null}
             {props.loggedIn ? <a href="#" className="topBarIcon"onClick={() => setImageMenuDisplayStatus(true)}><i className="fa fa-picture-o" aria-hidden="true"></i></a> : null }

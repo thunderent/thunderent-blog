@@ -65,9 +65,8 @@ const PostCard = (props) => {
                             <h2 style={styles.title}>{title}</h2>
                             <p style={styles.p} ><small>{description}</small></p>
                             <div style={styles.icon}>
-                              {/*<small style={{color:"gray"}}>0<i class="fa fa-comment" aria-hidden="true"></i></small>*/}
-                                <TagElement tag={tag}></TagElement>
-                               
+                                <small style={{color:"gray"}}>{props.article.comments.length}<i class="fa fa-comment" aria-hidden="true"></i></small>
+                                <TagElement tag={tag}></TagElement>   
                             </div>
 
                             <p><small><i>{date} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            

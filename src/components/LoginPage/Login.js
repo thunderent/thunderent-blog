@@ -1,23 +1,38 @@
 import React, {useState, useContext} from 'react';
-import {auth} from "../../firebase/index.js";
+import {auth, provider} from "../../firebase/index.js";
 import "../../index.css";
+import {withRouter} from 'react-router-dom';
 
 import BlogContext from "../../context/Context";
 
-const Login = () => {
+const Login = (props) => {
     const [userInfo, setUser] = useState({user:"", pass:""});
     const {dispatch} = useContext(BlogContext);
 
     const login = () => {
         auth.signInWithEmailAndPassword(userInfo.user,userInfo.pass).then(user => {
-            dispatch({type:"LOGGED_STATUS", payload:true});
+            dispatch({type:"LOGIN", payload:userInfo.user});
             alert("Succesfully logged in!");
             setUser({user:"", pass:""});
+            props.history.push(`/`);
         }).catch((error) => {
             console.log(error);
             alert("Could not log in!");
             setUser({user:"",pass:""});
         });
+    }
+
+    const googleLogin = () => {
+        auth.signInWithPopup(provider).then(user => {
+            dispatch({type:"LOGIN", payload:user.displayName});
+            alert("Succesfully logged in!");
+            setUser({user: "", pass:""});
+            props.history.push(`/`);
+        }).catch((error) => {
+            console.log(error);
+            alert("Could not log in!");
+            setUser({user:"", pass:""});
+        })
     }
 
     const onUserChange = (event) => {
@@ -36,11 +51,11 @@ const Login = () => {
                     <input onChange={onUserChange} value={userInfo.user} type="text" placeholder="Input username..."></input>
                     <input onChange={onPassChange} value={userInfo.pass} type="password" placeholder="Input password"></input>
                 </form>
-                <button onClick={() => auth.signOut()}>Log-in with Google</button>
+                <button onClick={googleLogin}>Log-in with Google</button>
                 <button onClick={login}>Login</button>              
             </div>
         </div>
     )
 }
 
-export default Login;
+export default withRouter(Login);

@@ -14,6 +14,7 @@ const Footer = () => {
                     <a href="#">Contact</a>
                 </div>
             </section>
+            <small style={{color:"gray"}}>Thunderent 2019. Created with the help of React and Firebase</small>
         </div>
     )
 }
