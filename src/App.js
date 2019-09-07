@@ -12,10 +12,12 @@ import Footer from "./components/Footer/Footer";
 import Article from "./components/ArticlePage/Article";
 import Login from "./components/LoginPage/Login";
 import ProtectedRoute from "./components/LoginPage/ProtectedRoute";
-import { auth } from "./firebase/index.js";
+import { auth,firestore } from "./firebase/index.js";
 
 const blogReducer = (state,action) => {
   switch(action.type){
+      case "GET_POSTS":
+          return({...state, listOfArticles:action.payload});  
       case "TAG":
           return({...state, tag:action.payload});
       case "THUMBNAIL":
@@ -36,13 +38,8 @@ const blogReducer = (state,action) => {
 }
 
 /* TODO The initial state for the dashboard will be either set when creating new blog post or editing a current blog post
-    GET THE POST 
-*/
-const initialState = {
-    loggedUserDisplayName : "",
-    loggedIn : false,
-    listOfArticles : [
-      {
+    GET THE POST
+    {
         title:"This is what happens when you don't pay taxes",
         date:"01/01/2001",
         thumbnail : "https://picsum.photos/id/559/120/120",
@@ -102,8 +99,12 @@ const initialState = {
          mainCover : "https://picsum.photos/id/452/1920/1080",
          mainCoverSource : "https://pixabay.com",
          comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"}]
-     }
-    ],
+     } 
+*/
+const initialState = {
+    loggedUserDisplayName : "",
+    loggedIn : false,
+    listOfArticles : [],
      activePost : {
         title:"",
         date:"",
@@ -122,7 +123,32 @@ const App = () => {
   const [state, dispatch] = useReducer(blogReducer,initialState);
 
   useEffect(() => {
+    let listOfArticles = [];
     console.log("This is being called here bro!");
+    firestore.collection("posts").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+           /* listOfArticles.push({
+                    id:doc.id,               
+                    title:doc.data().title,
+                    date:doc.data().date,
+                    thumbnail : doc.data().thumbnail,
+                    readDuration : doc.data().readDuration,
+                    description : doc.data().description,
+                    content : doc.data().content,
+                    tag : doc.data().tag,
+                    mainCover : doc.data().mainCover,
+                    mainCoverSource : doc.data().mainCoverSource,
+                    comments : doc.data().comments
+            }); */
+            listOfArticles.push({
+                id:doc.id,
+                ...doc.data()
+            })
+            console.log(doc.id, " => ", doc.data());
+            dispatch({type:"GET_POSTS", payload:listOfArticles});
+        });
+        
+    });
   },[]);
   
   useEffect(() => {
