@@ -10,7 +10,7 @@ const TagElement = (props) => {
         }
     }
     return(
-        <span style={{background:tagColor(props.tag)}} className="tag">{props.tag} <i class="fa fa-tag" aria-hidden="true"></i></span>
+        <span style={{background:tagColor(props.tag), fontSize:"12px"}} className="tag">{props.tag} <i class="fa fa-tag" aria-hidden="true"></i></span>
     );
 }
 

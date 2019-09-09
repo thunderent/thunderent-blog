@@ -45,7 +45,7 @@ const initialState = {
       {
         title:"This is what happens when you don't pay taxes",
         date:"01/01/2001",
-        thumbnail : "https://picsum.photos/id/559/120/120",
+        thumbnail : "https://picsum.photos/id/960/800/500",
         readDuration : 5,
         description : "Are death and taxes the only two things certain in this world?",
         content : "**We're not in Kansas anymore, Dorothy!**",
@@ -57,7 +57,7 @@ const initialState = {
      {
       title:"This is just another blog post here tomato two",
       date:"01/01/2001",
-      thumbnail : "https://picsum.photos/id/559/120/120",
+      thumbnail : "https://picsum.photos/id/960/800/500",
       readDuration : 5,
       description : "Gravity in the space station. There are some clever ideas out there with the space stations of the future",
       content : "**Hello,worldly people!**lofkjhfglkjhglkfjghkhkljhlkjh ksjhdsalkjhdsjk",
@@ -69,7 +69,7 @@ const initialState = {
      {
       title:"This is just another blog post here apple two",
       date:"01/01/2001",
-      thumbnail : "https://picsum.photos/id/559/120/120",
+      thumbnail : "https://picsum.photos/id/960/800/500",
       readDuration : 5,
       description : "Just another blog article",
       content : "**Hello,world!**",
@@ -81,7 +81,7 @@ const initialState = {
      {
          title:"This is just another blog post here apple two",
          date:"01/01/2001",
-         thumbnail : "https://picsum.photos/id/559/120/120",
+         thumbnail : "https://picsum.photos/id/960/800/500",
          readDuration : 5,
          description : "Just another blog article",
          content : "**Hello,world!**",
@@ -94,7 +94,7 @@ const initialState = {
      {
          title:"This is just another blog post here apple two",
          date:"01/01/2001",
-         thumbnail : "https://picsum.photos/id/559/120/120",
+         thumbnail : "https://picsum.photos/id/960/800/500",
          readDuration : 5,
          description : "Just another blog article",
          content : "**Hello,world!**",
