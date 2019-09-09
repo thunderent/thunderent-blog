@@ -47,17 +47,24 @@ export const Dashboard = () => {
        Gather the content and markdown from the input fields
        generate a post date when hitting save post
        parse the content to determine the reading time
+       
     */
 
-   const blogObject = {
-     title : postData.blogTitle,
-     content : postData.markdown,
-     thumbnail : state.thumbnailLink,
-     tag : state.tag,
-     readDuration : 0,
-     postDate : new Date()
+   const blogObject = {  
+      comments: [],
+      content: postData.markdown,
+      date: new Date().toDateString(),
+      description: postData.description,
+      mainCover: postData.mainCover,
+      mainCoverSource: postData.mainCoverSource,
+      readDuration: 5,
+      tag: "TECH",
+      thumbnail: postData.thumbnail,
+      title: postData.blogTitle
    }
-    firestore.collection("posts").add(blogObject);
+    firestore.collection("posts").add(blogObject).then((docRef) => {
+      alert("Document added : ", docRef.id);
+    });
     console.log(state,dispatch); 
   }
 
