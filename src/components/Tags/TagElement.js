@@ -1,16 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 
 const TagElement = (props) => {
-    const tagColor = (tag) => {
-        switch(tag){
-            case "TECH": return "#509aab"
-            case "LIFE": return "#52ab50"
-            case "DEV": return "#5446b3"
-        }
-    }
+
+
     return(
-        <span style={{background:tagColor(props.tag), fontSize:"12px"}} className="tag">{props.tag} <i class="fa fa-tag" aria-hidden="true"></i></span>
+        <span style={{background:JSON.parse(localStorage.getItem("blog_tags")).tag, fontSize:"12px"}} className="tag">{props.tag} <i class="fa fa-tag" aria-hidden="true"></i></span>
     );
 }
 

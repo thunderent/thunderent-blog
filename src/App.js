@@ -19,7 +19,9 @@ const blogReducer = (state,action) => {
       case "GET_POSTS":
           return({...state, listOfArticles:action.payload});  
       case "TAG":
-          return({...state, tag:action.payload});
+          let _activePost = state.activePost;
+          _activePost.tag = action.paylod
+          return({...state, activePost:_activePost});
       case "THUMBNAIL":
           return({...state, thumbnailLink:action.payload});
       case "SET_ACTIVE_POST":
@@ -121,6 +123,36 @@ const initialState = {
 
 const App = () => {
   const [state, dispatch] = useReducer(blogReducer,initialState);
+
+  useEffect(() => {
+    let tagList = [];
+    let today = new Date();
+
+    if(localStorage.hasOwnProperty("blog_tags") === true){
+        let savedObject = JSON.parse(localStorage.getItem("blog_tags"));
+        if(parseInt(savedObject.expiryDate) < today.getTime()){
+            firestore.collection("tags").get().then(data => 
+                {
+                    data.forEach(e => tagList.push(e.data()));
+                    localStorage.setItem("blog_tags",JSON.stringify({
+                        tagList : tagList,
+                        expiryDate : new Date().setDate(today.getDate()+1) 
+                    })); 
+                }
+            );    
+        }
+    }else{
+            firestore.collection("tags").get().then(data => 
+                {
+                    data.forEach(e => tagList.push(e.data()));
+                    localStorage.setItem("blog_tags",JSON.stringify({
+                        tagList : tagList,
+                        expiryDate : new Date().setDate(today.getDate()+1) 
+                    })); 
+                }
+            );        
+    }
+  },[]);
 
   useEffect(() => {
     let listOfArticles = [];
