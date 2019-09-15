@@ -1,47 +1,88 @@
 import React, {useContext} from 'react';
 import PostCard from "./PostCard";
 import AuthorCard from "./AuthorCard";
+import styled from 'styled-components';
+import {device} from "../../device/device.js";
 
 import BlogContext from "../../context/Context";
 
-const mainPageStyle = {
-    articleArea : {
-        width:"42em",
-        margin: "0 auto"
-    },
-    titleContainer : {
-        width:"42em",
-        margin: "0 auto",
-        display:"flex",
-        justifyContent:"space-between",
-        borderBottom: "1px solid #d1d1d1"
-    },
-    linksContainer : {
-        margin: "27px 0px",
-        width:"100px",
-        display:"flex",
-        justifyContent:"space-between",
-        fontSize:"20px"
+const ArticlesContainer = styled.div`
+    width:52em;
+    margin: 0 auto;
+
+    @media ${device.mobileS} {
+        width:20em;
     }
-}
+
+    @media ${device.mobileL} {
+        width:28em;
+    }
+
+    @media ${device.laptop} {
+        width:45em;
+    }
+
+    @media ${device.laptopL} {
+        width:52em;
+    }
+`;
+
+const TitleContainer = styled.div`   
+    display:flex;
+    border-bottom: 1px solid #d1d1d1;
+
+
+    @media ${device.mobileS} {
+        width:auto;
+        margin: 0 1em;
+        justify-content:space-around;
+    }
+
+    @media ${device.mobileL} {
+        width:35em;
+        margin: 0 auto;
+        justify-content:space-around;
+    }
+
+    @media ${device.laptop} {
+        width:45em;
+        margin: 0 auto;
+        justify-content:space-between;
+    }
+
+    @media ${device.laptopL} {
+        width:52em;
+        margin: 0 auto;
+        justify-content:space-between;
+    }
+`;
+
+const LinksContainer = styled.div`
+    margin: 27px 0px;
+    width:100px;
+    display:flex;
+    justify-content:space-between;
+    font-size:20px;
+`;
+
 const MainPage = () => {
     const {state} = useContext(BlogContext);
 
     return(
         <div>
             <div style={{height:"80px"}}></div>
-            <div style={mainPageStyle.titleContainer}>
+            <TitleContainer>
                 <h2>Full-Stack Citizen</h2>
-                <span style={mainPageStyle.linksContainer}>
+                <LinksContainer>
                     <i class="fa fa-gamepad socialIcon" aria-hidden="true"><a href="#"></a></i>  
                     <i class="fa fa-address-card socialIcon" aria-hidden="true"><a href="#"></a></i>
                     <i class="fa fa-github socialIcon" aria-hidden="true"><a href="#"></a></i>      
-                </span>
-            </div>
+                </LinksContainer>
+            </TitleContainer>
             <AuthorCard></AuthorCard>
-            <div style={mainPageStyle.articleArea}>
+            <ArticlesContainer>
                     {state.listOfArticles.map(e => { console.log(e); return(<PostCard article={e}></PostCard>)})}
-            </div>
+            </ArticlesContainer>
         </div>
     )
 }

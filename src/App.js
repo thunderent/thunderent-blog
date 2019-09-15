@@ -19,7 +19,9 @@ const blogReducer = (state,action) => {
       case "GET_POSTS":
           return({...state, listOfArticles:action.payload});  
       case "TAG":
-          return({...state, tag:action.payload});
+          let _activePost = state.activePost;
+          _activePost.tag = action.paylod
+          return({...state, activePost:_activePost});
       case "THUMBNAIL":
           return({...state, thumbnailLink:action.payload});
       case "SET_ACTIVE_POST":
@@ -42,7 +44,7 @@ const blogReducer = (state,action) => {
     {
         title:"This is what happens when you don't pay taxes",
         date:"01/01/2001",
-        thumbnail : "https://picsum.photos/id/559/120/120",
+        thumbnail : "https://picsum.photos/id/960/800/500",
         readDuration : 5,
         description : "Are death and taxes the only two things certain in this world?",
         content : "**We're not in Kansas anymore, Dorothy!**",
@@ -54,7 +56,7 @@ const blogReducer = (state,action) => {
      {
       title:"This is just another blog post here tomato two",
       date:"01/01/2001",
-      thumbnail : "https://picsum.photos/id/559/120/120",
+      thumbnail : "https://picsum.photos/id/960/800/500",
       readDuration : 5,
       description : "Gravity in the space station. There are some clever ideas out there with the space stations of the future",
       content : "**Hello,worldly people!**lofkjhfglkjhglkfjghkhkljhlkjh ksjhdsalkjhdsjk",
@@ -66,7 +68,7 @@ const blogReducer = (state,action) => {
      {
       title:"This is just another blog post here apple two",
       date:"01/01/2001",
-      thumbnail : "https://picsum.photos/id/559/120/120",
+      thumbnail : "https://picsum.photos/id/960/800/500",
       readDuration : 5,
       description : "Just another blog article",
       content : "**Hello,world!**",
@@ -78,7 +80,7 @@ const blogReducer = (state,action) => {
      {
          title:"This is just another blog post here apple two",
          date:"01/01/2001",
-         thumbnail : "https://picsum.photos/id/559/120/120",
+         thumbnail : "https://picsum.photos/id/960/800/500",
          readDuration : 5,
          description : "Just another blog article",
          content : "**Hello,world!**",
@@ -91,7 +93,7 @@ const blogReducer = (state,action) => {
      {
          title:"This is just another blog post here apple two",
          date:"01/01/2001",
-         thumbnail : "https://picsum.photos/id/559/120/120",
+         thumbnail : "https://picsum.photos/id/960/800/500",
          readDuration : 5,
          description : "Just another blog article",
          content : "**Hello,world!**",
@@ -121,6 +123,36 @@ const initialState = {
 
 const App = () => {
   const [state, dispatch] = useReducer(blogReducer,initialState);
+
+  useEffect(() => {
+    let tagList = [];
+    let today = new Date();
+
+    if(localStorage.hasOwnProperty("blog_tags") === true){
+        let savedObject = JSON.parse(localStorage.getItem("blog_tags"));
+        if(parseInt(savedObject.expiryDate) < today.getTime()){
+            firestore.collection("tags").get().then(data => 
+                {
+                    data.forEach(e => tagList.push(e.data()));
+                    localStorage.setItem("blog_tags",JSON.stringify({
+                        tagList : tagList,
+                        expiryDate : new Date().setDate(today.getDate()+1) 
+                    })); 
+                }
+            );    
+        }
+    }else{
+            firestore.collection("tags").get().then(data => 
+                {
+                    data.forEach(e => tagList.push(e.data()));
+                    localStorage.setItem("blog_tags",JSON.stringify({
+                        tagList : tagList,
+                        expiryDate : new Date().setDate(today.getDate()+1) 
+                    })); 
+                }
+            );        
+    }
+  },[]);
 
   useEffect(() => {
     let listOfArticles = [];

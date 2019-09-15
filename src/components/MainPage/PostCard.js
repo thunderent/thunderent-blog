@@ -2,22 +2,47 @@ import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import TagElement from "../Tags/TagElement.js";
 import {withRouter} from 'react-router-dom';
+import styled from 'styled-components';
 import "../../index.css";
+import {device} from "../../device/device";
 
 
 import BlogContext from "../../context/Context";
 
+const ThumbnailImage = styled.img`
+    display:block;
+    margin:2px auto;
+    height:200px;
+    object-fit:cover;
 
+    @media ${device.mobileS} {
+        width:80%;
+    }
+
+    @media ${device.mobileL} {
+        width:100%;
+    }
+`;
+
+const Article = styled.article`
+    position: relative;  
+    padding :  15px;
+    border-radius: 10px; 
+    
+    img{
+        transition: opacity 0.4s ease-out;
+    }
+    &:hover{
+        box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.25);
+        cursor: pointer;
+
+        img{
+            opacity : 0.6;
+        }
+    }
+`;
 
 const styles = {
-    article : {  
-        position:"relative",    
-        padding : "10px",
-        borderRadius:"10px"
-    },
-    articleContainer : {
-        margin :"30px 0px",
-    },
     title: {
         display:"inline-block",
         fontSize:"20px"
@@ -37,11 +62,11 @@ const styles = {
     },
     editLabel : {
         position: "relative",
-        float: 'right',
-        bottom: '150px',
-        background: 'beige',
-        padding: '4px',
-        borderRadius: '10px'
+        top: '-1em',
+        background: 'yellow',
+        padding: '10px',
+        borderRadius: '10px',
+        boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.25)'
     }
 }
 
@@ -59,9 +84,9 @@ const PostCard = (props) => {
         props.history.push("/dashboard/");
     }
     return(
-          <div style={styles.articleContainer}>            
-                    <article onClick={openArticle} class="article" style={styles.article}>
-                            <img style={styles.thumbnail} src={thumbnail}></img>
+          <div style={{margin :"30px 0px"}}>            
+                    <Article onClick={openArticle}>
+                            <ThumbnailImage src={thumbnail}></ThumbnailImage>
                             <h2 style={styles.title}>{title}</h2>
                             <p style={styles.p} ><small>{description}</small></p>
                             <div style={styles.icon}>
@@ -70,7 +95,7 @@ const PostCard = (props) => {
                             </div>
 
                             <p><small><i>{date} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            
-                    </article>
+                    </Article>
                 {state.loggedIn ?<span style={styles.editLabel}>  <i  onClick={() => editArticle()} className="fa fa-pencil smallIcon" aria-hidden="true"></i>  
                        <i onClick={() => console.log("delete")} className="fa fa-trash smallIcon" aria-hidden="true"></i>
                 </span> : null}       
