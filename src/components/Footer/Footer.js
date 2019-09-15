@@ -12,7 +12,6 @@ const FooterContainer = styled.div`
 `;
 
 const FooterSection = styled.section`
-    border-top:1px solid white;
     max-width: 1000px;
     margin:0px auto;
     display:flex;

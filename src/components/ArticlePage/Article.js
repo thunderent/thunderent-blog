@@ -84,7 +84,6 @@ const Article = () => {
     const opacity = Math.min(100 / scrollHeight  , 1);
 
     const handleScroll = () => {
-        console.log(scrollHeight);
           var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
           if(scrollTop<600){
             setScrollHeight(scrollTop);
@@ -109,19 +108,20 @@ const Article = () => {
                 <div>
                     <Title>{state.activePost.title}</Title>   
                     <SmallDescription>{state.activePost.description}</SmallDescription>
-                    <DetailsText><i>{state.activePost.date} | {state.activePost.readDuration} minutes reading</i> <TagElement tag={state.activePost.tag}></TagElement></DetailsText>
+                    <DetailsText>
+                        <i>{state.activePost.date} | {state.activePost.readDuration} minutes reading</i> <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === state.activePost.tag)[0]}></TagElement></DetailsText>
                 </div>
             </Header>
             <div>
-               <div style={{opacity}}> <CoverImage  src="https://picsum.photos/id/452/1920/1080"></CoverImage></div>
-                <p style={styles.coverSource}><small>Illustration : <a style={{color : "#919191"}} href="#">Five-Gran</a></small></p>
+               <div style={{opacity}}> <CoverImage  src={state.activePost.mainCover}></CoverImage></div>
+                {state.activePost.mainCoverSource !== "" ? <p style={styles.coverSource}><small>Illustration : <a style={{color : "#919191"}} href={state.activePost.mainCoverSource}>Source</a></small></p> : null}
             </div>
             <ArticleContent dangerouslySetInnerHTML={{ __html : sanitizeHtml(blogContent)}}></ArticleContent>
             <div style={styles.footer}>
                 <AuthorCard></AuthorCard>
                 <br></br>
             </div>
-            {<CommentSection loggedIn={state.loggedIn} comments={state.activePost.comments}></CommentSection>}
+            {<CommentSection loggedIn={state.loggedIn} comments={state.activePost.comments} postID = {state.activePost.id} userName={state.loggedUserDisplayName}></CommentSection>}
         </div>
     )
 }

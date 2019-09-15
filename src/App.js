@@ -108,6 +108,7 @@ const initialState = {
     loggedIn : false,
     listOfArticles : [],
      activePost : {
+        id:0,
         title:"",
         date:"",
         thumbnail : "",
@@ -124,6 +125,7 @@ const initialState = {
 const App = () => {
   const [state, dispatch] = useReducer(blogReducer,initialState);
 
+  //Get the tags
   useEffect(() => {
     let tagList = [];
     let today = new Date();
@@ -154,24 +156,11 @@ const App = () => {
     }
   },[]);
 
+  //Get the articles
   useEffect(() => {
     let listOfArticles = [];
-    console.log("This is being called here bro!");
     firestore.collection("posts").get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-           /* listOfArticles.push({
-                    id:doc.id,               
-                    title:doc.data().title,
-                    date:doc.data().date,
-                    thumbnail : doc.data().thumbnail,
-                    readDuration : doc.data().readDuration,
-                    description : doc.data().description,
-                    content : doc.data().content,
-                    tag : doc.data().tag,
-                    mainCover : doc.data().mainCover,
-                    mainCoverSource : doc.data().mainCoverSource,
-                    comments : doc.data().comments
-            }); */
             listOfArticles.push({
                 id:doc.id,
                 ...doc.data()
