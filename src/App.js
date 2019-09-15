@@ -144,7 +144,7 @@ const App = () => {
                 id:doc.id,
                 ...doc.data()
             })
-            console.log(doc.id, " => ", doc.data());
+            console.log(console.log(doc));
             dispatch({type:"GET_POSTS", payload:listOfArticles});
         });
         
