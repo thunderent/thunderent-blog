@@ -20,7 +20,7 @@ const blogReducer = (state,action) => {
           return({...state, listOfArticles:action.payload});  
       case "TAG":
           let _activePost = state.activePost;
-          _activePost.tag = action.paylod
+          _activePost.tag = action.payload;
           return({...state, activePost:_activePost});
       case "THUMBNAIL":
           return({...state, thumbnailLink:action.payload});

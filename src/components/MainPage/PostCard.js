@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import styled from 'styled-components';
 import "../../index.css";
 import {device} from "../../device/device";
+import {firestore} from "../../firebase/index";
 
 
 import BlogContext from "../../context/Context";
@@ -72,7 +73,7 @@ const styles = {
 
 const PostCard = (props) => {
     const {state, dispatch} = useContext(BlogContext);
-    const {title,date,thumbnail,readDuration,description,tag} = props.article;
+    const {title,date,thumbnail,readDuration,description,tag, id} = props.article;
     
     const openArticle = () => {
         dispatch({type:"SET_ACTIVE_POST", payload:props.article});
@@ -82,6 +83,11 @@ const PostCard = (props) => {
     const editArticle = () => {
         dispatch({type:"SET_ACTIVE_POST", payload:props.article});
         props.history.push("/dashboard/");
+    }
+
+    const deleteArticle = () => {
+        console.log(props.article);
+        firestore.collection("posts").doc(id).delete().then(() => alert("Deleted!")).catch(err => alert("There was an error deleting the post",err));
     }
     return(
           <div style={{margin :"30px 0px"}}>            
@@ -97,7 +103,7 @@ const PostCard = (props) => {
                             <p><small><i>{date} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            
                     </Article>
                 {state.loggedIn ?<span style={styles.editLabel}>  <i  onClick={() => editArticle()} className="fa fa-pencil smallIcon" aria-hidden="true"></i>  
-                       <i onClick={() => console.log("delete")} className="fa fa-trash smallIcon" aria-hidden="true"></i>
+                       <i onClick={() => deleteArticle()} className="fa fa-trash smallIcon" aria-hidden="true"></i>
                 </span> : null}       
         </div>
     )

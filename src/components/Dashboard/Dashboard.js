@@ -6,12 +6,11 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 import "../../index.css";
 
 import TagsSelector from "../Tags/TagsSelector";
-import ImageUploader from '../ImageUploader';
 import SidebarCard from "./SidebarCard";
 
 
 import BlogContext from "../../context/Context";
-import { stat } from 'fs';
+
 
 export const Dashboard = () => {
   const {state, dispatch} = useContext(BlogContext);
@@ -58,7 +57,7 @@ export const Dashboard = () => {
       mainCover: postData.mainCover,
       mainCoverSource: postData.mainCoverSource,
       readDuration: 5,
-      tag: "TECH",
+      tag: state.activePost.tag,
       thumbnail: postData.thumbnail,
       title: postData.blogTitle
    }

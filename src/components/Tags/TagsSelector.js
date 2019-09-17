@@ -15,6 +15,7 @@ const TagsSelector = () =>{
     
 
     const onChange = (event) => {
+        console.log(event.target.value);
         dispatch({type:"TAG", payload:event.target.value});
     }
 
