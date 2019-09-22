@@ -47,12 +47,12 @@ const Login = (props) => {
             <div style={{height:"80px"}}></div>
             <div className="loginContainer">
                 <h1>Login</h1>
-                <form>
+                <form style={{display:"inline"}}>
                     <input onChange={onUserChange} value={userInfo.user} type="text" placeholder="Input username..."></input>
                     <input onChange={onPassChange} value={userInfo.pass} type="password" placeholder="Input password"></input>
                 </form>
-                <button onClick={googleLogin}>Log-in with Google</button>
-                <button onClick={login}>Login</button>              
+                <button onClick={login}>Login</button>    
+                <button style={{background:"#de6464"}} onClick={googleLogin}>Log-in with Google</button>          
             </div>
         </div>
     )
