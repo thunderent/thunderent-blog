@@ -16,7 +16,7 @@ const PostCard = (props) => {
     
     const openArticle = () => {
         dispatch({type:"SET_ACTIVE_POST", payload:props.article});
-        props.history.push(`/article/${title.replace(/\s/g, "-")}`);
+        props.history.push(`/article/${id}`);
     }
 
     const editArticle = () => {
