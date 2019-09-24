@@ -41,7 +41,7 @@ const PostCard = (props) => {
                                 <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === tag)[0]}></TagElement>   
                             </IconsArea>
 
-                            <p><small><i>{date} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            
+                            <p><small><i>{new Date(date).toDateString()} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            
                     </Article>
                
                     {state.loggedIn ? 

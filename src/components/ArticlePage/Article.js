@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from 'react';
-import styled from 'styled-components';
 import TagElement from "../Tags/TagElement";
 import BlogContext from "../../context/Context";
 import * as Showdown from "showdown";
@@ -7,6 +6,9 @@ import * as sanitizeHtml from "sanitize-html-react";
 import AuthorCard from '../MainPage/AuthorCard';
 import CommentSection from './CommentSection';
 import {Header,Title,ArticleContent,CoverImage,DetailsText,SmallDescription,styles} from "./Styling/ArticleStyling.js";
+
+
+
 
 
 let converter = new Showdown.Converter({
@@ -33,7 +35,7 @@ const Article = () => {
     useEffect(() => window.scrollTo(0,0), []);
     
     useEffect(() => {
-        console.log(blogContent);
+        console.log(state);
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -48,7 +50,7 @@ const Article = () => {
                     <Title>{state.activePost.title}</Title>   
                     <SmallDescription>{state.activePost.description}</SmallDescription>
                     <DetailsText>
-                        <i>{state.activePost.date} | {state.activePost.readDuration} minutes reading</i> 
+                        <i>{new Date(state.activePost.date).toDateString()} | {state.activePost.readDuration} minutes read</i> 
                         <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === state.activePost.tag)[0]}/>
                     </DetailsText>
                 </div>
@@ -63,7 +65,7 @@ const Article = () => {
                     </p> : null
                 }
             </div>
-            <ArticleContent dangerouslySetInnerHTML={{ __html : sanitizeHtml(blogContent)}}></ArticleContent>
+            <ArticleContent dangerouslySetInnerHTML={{ __html : sanitizeHtml(blogContent,{allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h1','h2' ])})}}/>
             <div style={styles.footer}>
                 <AuthorCard/>
                 <br></br>

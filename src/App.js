@@ -159,7 +159,7 @@ const App = () => {
   //Get the articles
   useEffect(() => {
     let listOfArticles = [];
-    firestore.collection("posts").get().then(function(querySnapshot) {
+    firestore.collection("posts").orderBy("date","desc").get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             listOfArticles.push({
                 id:doc.id,

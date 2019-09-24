@@ -4,6 +4,7 @@ import * as Showdown from "showdown";
 import {firestore} from "../../firebase";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import "../../index.css";
+import * as utils from "../../utils/utils";
 
 import TagsSelector from "../Tags/TagsSelector";
 import SidebarCard from "./SidebarCard";
@@ -52,19 +53,35 @@ export const Dashboard = () => {
    const blogObject = {  
       comments: [],
       content: postData.markdown,
-      date: new Date().toDateString(),
+      date: new Date().getTime(),
       description: postData.description,
       mainCover: postData.mainCover,
       mainCoverSource: postData.mainCoverSource,
-      readDuration: 5,
+      readDuration: utils.calculateReadingTime(postData.markdown),
       tag: state.activePost.tag,
       thumbnail: postData.thumbnail,
       title: postData.blogTitle
    }
-    firestore.collection("posts").add(blogObject).then((docRef) => {
-      alert("Document added : ", docRef.id);
-    });
-    console.log(state,dispatch); 
+
+   if(state.activePost.id === 0){
+      firestore.collection("posts").add(blogObject).then((docRef) => {
+        alert("Document added : ", docRef.id);
+      });
+    }
+   else{
+      firestore.collection("posts").doc(state.activePost.id).update({
+        content:blogObject.content,
+        description:blogObject.description,
+        mainCover:blogObject.mainCover,
+        mainCoverSource:blogObject.mainCoverSource,
+        readDuration: utils.calculateReadingTime(blogObject.content),
+        tag:blogObject.tag,
+        thumbnail:blogObject.thumbnail,
+        title:blogObject.title
+      }).then(() => {
+        alert("Document updated!");
+      });;
+   }
   }
 
   /* TODO - Do data validation here */

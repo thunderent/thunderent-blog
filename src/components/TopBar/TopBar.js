@@ -34,7 +34,7 @@ const TopBar = (props) => {
             <div className="smallMenu">
                 {props.loggedIn ? 
                     <> 
-                    <i class="fa fa-user-circle" aria-hidden="true"></i> <span>Welcome, {state.loggedUserDisplayName} </span> 
+                    <i class="fa fa-user-circle" aria-hidden="true"></i> <span>Welcome {state.loggedUserDisplayName} </span> 
                     </> : <Link style={{textDecoration:"none", fontSize:"18px", color:"white"}} to="/login"><i class="fa fa-sign-in" aria-hidden="true"></i>Login</Link>
                 } 
                 {props.loggedIn ? 
