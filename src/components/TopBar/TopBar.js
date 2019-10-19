@@ -9,7 +9,6 @@ import "../../index.css";
 import 'font-awesome/css/font-awesome.min.css';
 import { auth } from '../../firebase/index';
 
-
 const TopBar = (props) => { 
     const {state,dispatch} = useContext(BlogContext);
     const [imageMenuOpen, setImageMenuDisplayStatus] = useState(false); 
@@ -39,8 +38,11 @@ const TopBar = (props) => {
                 } 
                 {props.loggedIn ? 
                     <Dropdown>
-                        <MenuLink onClick={() => dispatch({type:"CREATE_POST"})}><Link style={{textDecoration:"none", color:"black"}} to="/dashboard/" ><i className="fa fa-plus-circle" aria-hidden="true"></i>Create Post</Link></MenuLink> 
-                        <MenuLink onClick={() => setImageMenuDisplayStatus(true)}><i className="fa fa-picture-o" aria-hidden="true">Image Uploader</i></MenuLink>
+                        {props.isAdmin ?
+                        <React.Fragment>
+                            <MenuLink onClick={() => dispatch({type:"CREATE_POST"})}><Link style={{textDecoration:"none", color:"black"}} to="/dashboard/" ><i className="fa fa-plus-circle" aria-hidden="true"></i>Create Post</Link></MenuLink> 
+                            <MenuLink onClick={() => setImageMenuDisplayStatus(true)}><i className="fa fa-picture-o" aria-hidden="true">Image Uploader</i></MenuLink>
+                        </React.Fragment> : null}
                         <MenuLink onClick={() => logOut()} ><Link style={{textDecoration:"none", color:"black"}} to="/"><i style={{color:"red"}} class="fa fa-sign-out" aria-hidden="true">Logout</i></Link></MenuLink>
                     </Dropdown> : null
                 }         

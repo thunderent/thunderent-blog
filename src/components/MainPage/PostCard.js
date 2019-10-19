@@ -44,7 +44,7 @@ const PostCard = (props) => {
                             <p><small><i>{new Date(date).toDateString()} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            
                     </Article>
                
-                    {state.loggedIn ? 
+                    {state.isAdmin ? 
                         <EditLabel>  
                             <i  onClick={() => editArticle()} className="fa fa-pencil smallIcon" aria-hidden="true"></i>  
                             <i onClick={() => deleteArticle()} className="fa fa-trash smallIcon" aria-hidden="true"></i>

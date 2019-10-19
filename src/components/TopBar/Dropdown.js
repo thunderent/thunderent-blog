@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import 'font-awesome/css/font-awesome.min.css';
 import {Container, DropdownBtn} from "./Styling/DropdownStyling";
 

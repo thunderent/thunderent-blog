@@ -31,7 +31,7 @@ const blogReducer = (state,action) => {
       case "LOGGED_STATUS":
           return({...state, loggedIn : action.payload});
       case "LOGIN":
-          return({...state, loggedIn : true, loggedUserDisplayName : action.payload}); 
+          return({...state, loggedIn : true, isAdmin: action.payload.isAdmin, loggedUserDisplayName : action.payload.userName}); 
       case "LOGOUT":
           return({...state, loggedIn : false, loggedUserDisplayName : ""});
       default:
@@ -106,6 +106,7 @@ const blogReducer = (state,action) => {
 const initialState = {
     loggedUserDisplayName : "",
     loggedIn : false,
+    isAdmin:false,
     listOfArticles : [],
      activePost : {
         id:0,
@@ -174,9 +175,17 @@ const App = () => {
   
   useEffect(() => {
     auth.onAuthStateChanged(user => {
-        if (user) {
-          console.log(user, "is signed in");
-          dispatch({type:"LOGIN", payload:user.displayName});
+        if(user) {
+          user.getIdTokenResult().then(idTokenResult => {
+            dispatch(
+                {
+                type:"LOGIN", 
+                payload:{
+                    userName: user.displayName,
+                    isAdmin:idTokenResult.claims.admin || false
+                }
+            });
+          })
         } else {
           console.log("jnope");
           dispatch({type:"LOGOUT", payload:false});
@@ -187,7 +196,7 @@ const App = () => {
     <BlogProvider value={{state,dispatch}}>
       <div className="mainContent">
         <Router>
-            <TopBar loggedIn={state.loggedIn}></TopBar>      
+            <TopBar loggedIn={state.loggedIn} isAdmin={state.isAdmin}></TopBar>      
             <Route path="/" exact component={MainPage}></Route>
             <ProtectedRoute path="/dashboard/" exact component={Dashboard}></ProtectedRoute>
             <Route path="/article/:id" exact component={Article}></Route>

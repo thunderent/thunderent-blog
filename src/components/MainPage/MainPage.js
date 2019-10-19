@@ -81,7 +81,7 @@ const MainPage = () => {
             </TitleContainer>
             <AuthorCard></AuthorCard>
             <ArticlesContainer>
-                    {state.listOfArticles.map(e => { console.log(e); return(<PostCard article={e}></PostCard>)})}
+                    {state.listOfArticles.map(e => { return(<PostCard article={e}></PostCard>)})}
             </ArticlesContainer>
         </div>
     )

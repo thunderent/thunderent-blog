@@ -1,6 +1,4 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {firestore} from "../../firebase";
-
 import BlogContext from "../../context/Context.js";
 
 const TagsSelector = () =>{
