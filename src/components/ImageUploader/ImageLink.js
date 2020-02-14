@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {storage, firestore} from '../firebase';
+import {storage, firestore} from '../../firebase';
 import 'font-awesome/css/font-awesome.min.css';
 
 const ImageLink = (props) => {

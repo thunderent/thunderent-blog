@@ -10,7 +10,6 @@ import MainPage from "./components/MainPage/MainPage";
 import TopBar from "./components/TopBar/TopBar";
 import Footer from "./components/Footer/Footer";
 import Article from "./components/ArticlePage/Article";
-import Login from "./components/LoginPage/Login";
 import ProtectedRoute from "./components/LoginPage/ProtectedRoute";
 import { auth,firestore } from "./firebase/index.js";
 
@@ -200,7 +199,6 @@ const App = () => {
             <Route path="/" exact component={MainPage}></Route>
             <ProtectedRoute path="/dashboard/" exact component={Dashboard}></ProtectedRoute>
             <Route path="/article/:id" exact component={Article}></Route>
-            <Route path="/login" exact component={Login}></Route>
         </Router>
     </div>
     <Footer></Footer>

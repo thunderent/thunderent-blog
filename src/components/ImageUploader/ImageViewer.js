@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {firestore} from '../firebase';
+import {firestore} from '../../firebase';
 
-import "../index.css";
+import "../../index.css";
 
-import BlogContext from "../context/Context";
+import {ImageViewerContainer, RefreshButton} from "./Styling/styles";
+import BlogContext from "../../context/Context";
 import 'font-awesome/css/font-awesome.min.css';
 
 import ImageLink from "./ImageLink";
@@ -39,17 +40,16 @@ const ImageViewer = (props) => {
 
     return(
         <>
-        <a style={{float:"right", position:"relative",left:"-30px", top:"-15px"}} className="actionButton grow" onClick={refresh}><i class="fa fa-refresh" aria-hidden="true"></i></a>
-        <div id="imageViewerContainer">
-            
+        <RefreshButton onClick={refresh}>
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+        </RefreshButton>
+        <ImageViewerContainer>       
             <ul>
              {imageList.map(img => (
-             <>
-                <ImageLink name={img.name} url={img.url}></ImageLink>  
-             </>
-             ))}
+                <ImageLink name={img.name} url={img.url}></ImageLink>
+            ))}
             </ul>
-        </div>
+        </ImageViewerContainer>
         </>
     );
 }
