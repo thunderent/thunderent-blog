@@ -16,3 +16,4 @@ Things left to do on the blog:
     9. Color scheme 
     10. Image uploader proper implementation
     11. Fix tag not displaying when accesing article directly
+    12. Add loader

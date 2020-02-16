@@ -58,6 +58,42 @@ export const ShareSection = styled.div`'
 
 `;
 
+export const CommentSectionContainer = styled.div` 
+    margin: 0px auto 30px auto;
+
+    @media ${device.mobile} { width:20em;}
+    @media ${device.tablet} { width:30em;}
+    @media ${device.laptop} {  width:45em;}
+    @media ${device.desktop} {  width:50em;}
+`;
+
+export const CommentContainer = styled.div` 
+    width:100%;
+    border : 1px solid #00447c;
+    border-radius:6px;
+    margin-top : 30px;
+    overflow: auto;
+    padding:20px;
+`;
+
+export const CommentIcon = styled.i`
+    float:left;
+    color:#00447c;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size : 30px;
+`;
+
+export const CommentInput = styled.textarea`
+    border-style: none;
+    border-color: transparent;
+    overflow: auto;
+    width:100%;
+    padding:20px;
+    box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.75);
+    border-radius: 4px;
+`;
+
 export const styles = {
     coverSource : {
         margin : "5px 0px",

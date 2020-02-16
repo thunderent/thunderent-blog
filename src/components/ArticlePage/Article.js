@@ -10,10 +10,7 @@ import * as utils from "../../utils/utils.js";
 import {Header,Title,ArticleContent,CoverImage,DetailsText,SmallDescription,ShareSection,styles} from "./Styling/ArticleStyling.js";
 import {serializeArticleForShare} from "../../utils/utils";
 
-
-
-
-
+//Markdown converter settings
 let converter = new Showdown.Converter({
     tables: true,
     simplifiedAutoLink: true,
@@ -23,31 +20,29 @@ let converter = new Showdown.Converter({
 
 const Article = () => {
     const {state} = useContext(BlogContext);
-    console.log("state", state);
 
+    const {activePost} = state;
     const [blogContent, setBlogContent] = useState({
-        id:state.activePost.id,
-        comments: state.activePost.comments,
-        content: converter.makeHtml(state.activePost.content),
-        date: state.activePost.date,
-        description: state.activePost.description,
-        mainCover: state.activePost.mainCover,
-        mainCoverSource: state.activePost.mainCoverSource,
-        readDuration: utils.calculateReadingTime(state.activePost.content),
-        tag: state.activePost.tag,
-        thumbnail: state.activePost.thumbnail,
-        title: state.activePost.title,     
+        ...activePost,
+        content : converter.makeHtml(activePost.content),
+        readDuration : utils.calculateReadingTime(activePost.content)
     });
-    const [scrollHeight, setScrollHeight] = useState(0);
-    
-    const opacity = Math.min(100 / scrollHeight, 1);
 
+    const [scrollHeight, setScrollHeight] = useState(0);   
+    const opacity = Math.min(100 / scrollHeight, 1);
     const handleScroll = () => {
           var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
           if(scrollTop<600){
             setScrollHeight(scrollTop);
           }
     };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+    });
 
     const shareResultsToFacebook = () => {
         const params = {
@@ -57,7 +52,6 @@ const Article = () => {
             description : blogContent.description
         }
         const url = `https://www.facebook.com/sharer/sharer.php?${serializeArticleForShare(params)}`;
-        console.log("this is the url", url);
         return url;
     }
 
@@ -68,48 +62,34 @@ const Article = () => {
             firestore.collection("posts").doc(linkId).get().then(data => {
                    let receivedData = data.data();
                    setBlogContent({
-                    id:data.id,
-                    comments: receivedData.comments,
-                    content: converter.makeHtml(receivedData.content),
-                    date: receivedData.date,
-                    description: receivedData.description,
-                    mainCover: receivedData.mainCover,
-                    mainCoverSource: receivedData.mainCoverSource,
-                    readDuration: utils.calculateReadingTime(receivedData.content),
-                    tag: receivedData.tag,
-                    thumbnail: receivedData.thumbnail,
-                    title: receivedData.title,       
-                   })
+                    ...receivedData,
+                    id : linkId,
+                    content:converter.makeHtml(receivedData.content),
+                    readDuration : utils.calculateReadingTime(receivedData.content) 
+                   });
             });
         }
     }, []);
     
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
-    });
-
     return(
         <div>
             <div style={{height:"80px"}}></div>
-            <Header>
-                <div>
-                    <Title>{blogContent.title}</Title>   
-                    <SmallDescription>{blogContent.description}</SmallDescription>
-                    <DetailsText>
-                        <i>{new Date(blogContent.date).toDateString()} | {blogContent.readDuration} minutes read</i> 
-                        <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === blogContent.tag)[0]}/>
-                    </DetailsText>
-                    <ShareSection>
-                            <a href={shareResultsToFacebook()} target="_blank">Share to facebook</a>
-                    </ShareSection>
-                </div>
-            </Header>
+                <Header>
+                    <div>
+                        <Title>{blogContent.title}</Title>   
+                        <SmallDescription>{blogContent.description}</SmallDescription>
+                        <DetailsText>
+                            <i>{new Date(blogContent.date).toDateString()} | {blogContent.readDuration} minutes read</i> 
+                            <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === blogContent.tag)[0]}/>
+                        </DetailsText>
+                        <ShareSection>
+                                <a href={shareResultsToFacebook()} target="_blank">Share to facebook</a>
+                        </ShareSection>
+                    </div>
+                </Header>
             <div>
                <div style={{opacity}}> 
-                    <CoverImage  src={blogContent.mainCover}></CoverImage>
+                    <CoverImage src={blogContent.mainCover}></CoverImage>
                </div>
                 {blogContent.mainCoverSource !== "" ? 
                     <p style={styles.coverSource}>
@@ -122,7 +102,7 @@ const Article = () => {
                 <AuthorCard/>
                 <br></br>
             </div>
-            {<CommentSection loggedIn={state.loggedIn} comments={blogContent.comments} postID = {blogContent.id} userName={state.loggedUserDisplayName}/>}
+            <CommentSection loggedIn={state.loggedIn} comments={blogContent.comments} postID={blogContent.id} userName={state.loggedUserDisplayName}/>
         </div>
     )
 }
