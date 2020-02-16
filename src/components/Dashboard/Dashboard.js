@@ -5,6 +5,7 @@ import {firestore} from "../../firebase";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import "../../index.css";
 import * as utils from "../../utils/utils";
+import styled from 'styled-components';
 
 import TagsSelector from "../Tags/TagsSelector";
 import SidebarCard from "./SidebarCard";
@@ -12,13 +13,23 @@ import SidebarCard from "./SidebarCard";
 
 import BlogContext from "../../context/Context";
 
+// StyledComponents //
+const TextArea = styled.textarea`
+    padding:5px 10px; 
+    outline:none;
+    box-shadow: none;
+    width:90%;
+    resize:none
+    font-size:12px;
+    color:gray;
+    border : ${props => props.value ? '1px solid #68a36c' : '1px solid #ff6661'}
+`;
 
 export const Dashboard = () => {
   const {state, dispatch} = useContext(BlogContext);
 
 
   const [tab, setTab] = useState();
-  // TODO - Use default values gathered from the global state in the future
   const [postData, setPostData] = useState(
     {
       blogTitle : state.activePost.title, 
@@ -26,7 +37,8 @@ export const Dashboard = () => {
       markdown : state.activePost.content,
       thumbnail : state.activePost.thumbnail,
       mainCover : state.activePost.mainCover,
-      mainCoverSource : state.activePost.mainCoverSource
+      mainCoverSource : state.activePost.mainCoverSource,
+      tag : state.activePost.tag
     }
   );
 
@@ -41,52 +53,69 @@ export const Dashboard = () => {
 
   const handleTabChange = (tab) => setTab(tab);
   
+  const resetArticle = () => {
+      setPostData(
+        {
+          blogTitle : state.activePost.title, 
+          description : state.activePost.description, 
+          markdown : state.activePost.content,
+          thumbnail : state.activePost.thumbnail,
+          mainCover : state.activePost.mainCover,
+          mainCoverSource : state.activePost.mainCoverSource,
+          tag : state.activePost.tag
+        }
+      );
+  }
   //Do blog post saving logic here
   const savePost = () => {
-    /* The current tag and thumbnail link should've been saved into the central state
-       Gather the content and markdown from the input fields
-       generate a post date when hitting save post
-       parse the content to determine the reading time
-       
-    */
-
-   const blogObject = {  
-      comments: [],
-      content: postData.markdown,
-      date: new Date().getTime(),
-      description: postData.description,
-      mainCover: postData.mainCover,
-      mainCoverSource: postData.mainCoverSource,
-      readDuration: utils.calculateReadingTime(postData.markdown),
-      tag: state.activePost.tag,
-      thumbnail: postData.thumbnail,
-      title: postData.blogTitle
-   }
-
-   if(state.activePost.id === 0){
-      firestore.collection("posts").add(blogObject).then((docRef) => {
-        alert("Document added : ", docRef.id);
-      });
-    }
+   if(isPostValid() === false){
+     alert("Not all fields have been completed!");
+   } 
    else{
-      firestore.collection("posts").doc(state.activePost.id).update({
-        content:blogObject.content,
-        description:blogObject.description,
-        mainCover:blogObject.mainCover,
-        mainCoverSource:blogObject.mainCoverSource,
-        readDuration: utils.calculateReadingTime(blogObject.content),
-        tag:blogObject.tag,
-        thumbnail:blogObject.thumbnail,
-        title:blogObject.title
-      }).then(() => {
-        alert("Document updated!");
-      });;
-   }
+      const blogObject = {  
+          comments: [],
+          content: postData.markdown,
+          date: new Date().getTime(),
+          description: postData.description,
+          mainCover: postData.mainCover,
+          mainCoverSource: postData.mainCoverSource,
+          readDuration: utils.calculateReadingTime(postData.markdown),
+          tag: state.activePost.tag,
+          thumbnail: postData.thumbnail,
+          title: postData.blogTitle
+      }
+
+      if(state.activePost.id === 0){
+          firestore.collection("posts").add(blogObject).then((docRef) => {
+            alert("Document added : ", docRef.id);
+          });
+      }
+      else{
+          firestore.collection("posts").doc(state.activePost.id).update({
+            content:blogObject.content,
+            description:blogObject.description,
+            mainCover:blogObject.mainCover,
+            mainCoverSource:blogObject.mainCoverSource,
+            readDuration: utils.calculateReadingTime(blogObject.content),
+            tag:blogObject.tag,
+            thumbnail:blogObject.thumbnail,
+            title:blogObject.title
+          }).then(() => {
+            alert("Document updated!");
+          });;
+      }
+    }
   }
 
   /* TODO - Do data validation here */
-  const validateData = () => {
-      return true;
+  const isPostValid = () => {
+    let isValid = true;
+    Object.keys(postData).forEach(function(key,index) {
+        console.log("The value is", postData[key], typeof postData[key])
+        const value = postData[key];
+        if(value === '' || value === undefined || value === null) isValid=false;
+    }) 
+    return isValid;
   }
 
   let converter = new Showdown.Converter({
@@ -117,9 +146,7 @@ export const Dashboard = () => {
               onChange={handleValueChange}
               onTabChange={handleTabChange}
               value={postData.markdown}
-              generateMarkdownPreview={markdown =>
-                Promise.resolve(converter.makeHtml(markdown))
-              }
+              generateMarkdownPreview={markdown => Promise.resolve(converter.makeHtml(markdown))}
               selectedTab={tab}
             />
           </div>
@@ -128,23 +155,23 @@ export const Dashboard = () => {
         <div style={{flex:1, marginLeft:"50px", marginTop:"50px"}}> 
             <SidebarCard cardTitle="Tags" cardCSSTag="fa fa-tag">
                 <div style={{padding:"10px"}}>
-                    <TagsSelector></TagsSelector>     
-                  </div>
+                    <TagsSelector selectedTag = {postData.tag}></TagsSelector>     
+                </div>
             </SidebarCard>
             <SidebarCard cardTitle="Images" cardCSSTag="fa fa-bandcamp">
                   <div style={{padding:"10px"}}>
                         <p>Thumbnail Link</p>
-                          <input onChange={handleThumbnailChange} value={postData.thumbnail} className="inputField" type="text" placeholder="Thumbnail image link..."></input>
+                          <TextArea  onChange={handleThumbnailChange} value={postData.thumbnail} className="inputField" type="text" placeholder="Thumbnail image link..."/>
                         <p>Cover Link</p>
-                          <input onChange={handleCoverChange} value={postData.mainCover} className="inputField" type="text" placeholder="Cover image link..."></input>
+                          <TextArea  onChange={handleCoverChange} value={postData.mainCover} className="inputField" type="text" placeholder="Cover image link..."/>
                         <p>Cover Source</p>
-                          <input onChange={handleCoverSourceChange} value={postData.mainCoverSource} className="inputField" type="text" placeholder="Cover image sources..."></input>
+                          <TextArea  onChange={handleCoverSourceChange} value={postData.mainCoverSource} className="inputField" type="text" placeholder="Cover image sources..."/>
                   </div>
             </SidebarCard>
             <SidebarCard cardTitle="Options" cardCSSTag="fa fa-cog">
                   <div style={{padding:"10px", display:"flex", justifyContent:"space-around"}}>
-                    <a className="actionButton" style={{background:"red"}} >Reset Article</a>
-                    <a className="actionButton" onClick={savePost}>Publish Article</a>
+                    <a className="actionButton" style={{background:"#ff6661"}} onClick={resetArticle}>Reset Article</a>
+                    <a className="actionButton" style={{background:"#68a36c"}} onClick={savePost}>Publish Article</a>
                   </div>
             </SidebarCard>
         </div>

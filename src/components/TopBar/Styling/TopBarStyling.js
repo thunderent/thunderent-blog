@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {device} from "../../../device/device";
 
 export const Container = styled.div`
     position: fixed;
@@ -10,6 +11,10 @@ export const Container = styled.div`
     display: flex;
     flex-direction: row;
     z-index: 999;
+`;
+
+export const Logo = styled.img`
+
 `;
 
 export const MenuLink = styled.span`
@@ -28,4 +33,7 @@ export const MenuLink = styled.span`
 export const Title = styled.h2`
     margin:0;
     color:white;
+
+    @media ${device.mobile} { display:none}
+    @media ${device.tablet} { display:none}
 `;

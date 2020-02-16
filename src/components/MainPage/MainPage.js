@@ -10,19 +10,15 @@ const ArticlesContainer = styled.div`
     width:52em;
     margin: 0 auto;
 
-    @media ${device.mobileS} {
-        width:20em;
+    @media ${device.mobile} {
+        width:23em;
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         width:28em;
     }
 
     @media ${device.laptop} {
-        width:45em;
-    }
-
-    @media ${device.laptopL} {
         width:52em;
     }
 `;
@@ -32,13 +28,13 @@ const TitleContainer = styled.div`
     border-bottom: 1px solid #d1d1d1;
 
 
-    @media ${device.mobileS} {
+    @media ${device.mobile} {
         width:auto;
         margin: 0 1em;
         justify-content:space-around;
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         width:35em;
         margin: 0 auto;
         justify-content:space-around;
@@ -50,7 +46,7 @@ const TitleContainer = styled.div`
         justify-content:space-between;
     }
 
-    @media ${device.laptopL} {
+    @media ${device.desktop} {
         width:52em;
         margin: 0 auto;
         justify-content:space-between;

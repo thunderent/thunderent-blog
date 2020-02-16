@@ -40,7 +40,7 @@ const Login = (props) => {
               })
         }).catch((error) => {
             console.log(error);
-            alert("Could not log in!");
+            alert("Could not log in!", error);
             setUser({user:"",pass:""});
         });
     }

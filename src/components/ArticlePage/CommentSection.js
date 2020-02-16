@@ -7,9 +7,10 @@ import {firestore} from "../../firebase";
 const Container = styled.div`
     margin: 0px auto 30px auto;
 
-    @media ${device.mobileM} { width:25em;}
-    @media ${device.mobileL} { width:30em;}
+    @media ${device.mobile} { width:20em;}
+    @media ${device.tablet} { width:30em;}
     @media ${device.laptop} {  width:45em;}
+    @media ${device.desktop} {  width:50em;}
 
 `;
 const styles = {

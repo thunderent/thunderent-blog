@@ -7,7 +7,7 @@ import {firestore} from "../../firebase/index";
 
 
 import BlogContext from "../../context/Context";
-import {Title, Article, ThumbnailImage, IconsArea, EditLabel} from "./Styling/PostCardStyling";
+import {Title, Article, ThumbnailImage, IconsArea, EditLabel, MobileTag} from "./Styling/PostCardStyling";
 
 
 const PostCard = (props) => {
@@ -34,11 +34,11 @@ const PostCard = (props) => {
           <div style={{margin :"30px 0px"}}>            
                     <Article onClick={openArticle}>
                             <ThumbnailImage src={thumbnail}></ThumbnailImage>
+                            <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === tag)[0]}></TagElement> 
                             <Title>{title}</Title>
                             <p style={{margin:0}} ><small>{description}</small></p>
                             <IconsArea>
                                 <small style={{color:"gray"}}>{props.article.comments.length}<i class="fa fa-comment" aria-hidden="true"></i></small>
-                                <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === tag)[0]}></TagElement>   
                             </IconsArea>
 
                             <p><small><i>{new Date(date).toDateString()} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            

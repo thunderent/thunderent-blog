@@ -26,30 +26,18 @@ export const ThumbnailImage = styled.img`
     margin:2px auto;
     height:200px;
     object-fit:cover;
-
-    @media ${device.mobileS} {
-        width:80%;
-    }
-
-    @media ${device.mobileL} {
-        width:100%;
-    }
+    width:100%;
 `;
 
 export const Article = styled.article`
     position: relative;  
-    padding :  15px;
+    padding :  25px 15px 15px 15px;
     border-radius: 10px; 
 
-    img{
-        transition: opacity 0.4s ease-out;
-    }
-    &:hover{
-        box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.25);
-        cursor: pointer;
+    transition: box-shadow 0.4s ease-out;
 
-        img{
-            opacity : 0.6;
-        }
+    &:hover{
+        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+        cursor: pointer;
     }
 `;

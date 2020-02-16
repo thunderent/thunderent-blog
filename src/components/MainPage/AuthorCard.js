@@ -6,11 +6,11 @@ import {device} from "../../device/device";
 const AuthorContainer = styled.div` 
     margin: 0 auto;
     overflow: auto;
-    @media ${device.mobileS} {
-        width:20em;
+    @media ${device.mobile} {
+        width:23em;
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tablet} {
         width:28em;
     }
 
@@ -18,7 +18,7 @@ const AuthorContainer = styled.div`
         width:40em;
     }
 
-    @media ${device.laptopL} {
+    @media ${device.desktop} {
         width:50em;
     }
 `;

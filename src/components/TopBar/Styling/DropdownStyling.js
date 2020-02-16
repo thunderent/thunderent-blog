@@ -7,8 +7,7 @@ export const Container = styled.div`
     padding:10px;
     background:white;
     position:relative;
-    top:20px;
-    border-radius:7px;
+    top:17px;
 `
 
 export const DropdownBtn = styled.div`
