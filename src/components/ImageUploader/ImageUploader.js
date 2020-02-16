@@ -1,9 +1,9 @@
 import React, {useState, useContext} from 'react';
-import {storage, firestore} from "../firebase";
+import {storage, firestore} from "../../firebase";
 
-import BlogContext from "../context/Context";
+import BlogContext from "../../context/Context";
 
-import "../index.css";
+import "../../index.css";
 
 export const ImageUploader = (props) => {
     const {dispatch} = useContext(BlogContext);

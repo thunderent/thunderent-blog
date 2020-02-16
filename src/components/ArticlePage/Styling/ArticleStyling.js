@@ -54,6 +54,10 @@ export const SmallDescription = styled.p`
 
 `;
 
+export const ShareSection = styled.div`'
+
+`;
+
 export const styles = {
     coverSource : {
         margin : "5px 0px",

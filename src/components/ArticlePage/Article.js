@@ -7,7 +7,8 @@ import * as sanitizeHtml from "sanitize-html-react";
 import AuthorCard from '../MainPage/AuthorCard';
 import CommentSection from './CommentSection';
 import * as utils from "../../utils/utils.js";
-import {Header,Title,ArticleContent,CoverImage,DetailsText,SmallDescription,styles} from "./Styling/ArticleStyling.js";
+import {Header,Title,ArticleContent,CoverImage,DetailsText,SmallDescription,ShareSection,styles} from "./Styling/ArticleStyling.js";
+import {serializeArticleForShare} from "../../utils/utils";
 
 
 
@@ -47,6 +48,18 @@ const Article = () => {
             setScrollHeight(scrollTop);
           }
     };
+
+    const shareResultsToFacebook = () => {
+        const params = {
+            u : window.location.href,
+            picture : blogContent.mainCover,
+            title : blogContent.title,
+            description : blogContent.description
+        }
+        const url = `https://www.facebook.com/sharer/sharer.php?${serializeArticleForShare(params)}`;
+        console.log("this is the url", url);
+        return url;
+    }
 
     useEffect(() => {
         window.scrollTo(0,0);
@@ -89,6 +102,9 @@ const Article = () => {
                         <i>{new Date(blogContent.date).toDateString()} | {blogContent.readDuration} minutes read</i> 
                         <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === blogContent.tag)[0]}/>
                     </DetailsText>
+                    <ShareSection>
+                            <a href={shareResultsToFacebook()} target="_blank">Share to facebook</a>
+                    </ShareSection>
                 </div>
             </Header>
             <div>

@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import ImageMenu from "../ImageMenu";
+import ImageMenu from "../ImageUploader/ImageMenu";
 import Dropdown from "./Dropdown.js";
 import {Link} from 'react-router-dom';
 import BlogContext from "../../context/Context";
@@ -7,7 +7,7 @@ import {Container, MenuLink, Title} from "./Styling/TopBarStyling";
 
 import "../../index.css";
 import 'font-awesome/css/font-awesome.min.css';
-import { auth } from '../../firebase/index';
+import { auth, provider } from '../../firebase/index';
 
 const TopBar = (props) => { 
     const {state,dispatch} = useContext(BlogContext);
@@ -15,6 +15,21 @@ const TopBar = (props) => {
     
     const closeMenuModal = () => {
         setImageMenuDisplayStatus(false);
+    }
+
+    const login = () => { 
+        auth.signInWithPopup(provider).then(user => {
+            dispatch( {
+                type:"LOGIN", 
+                payload:{
+                    userName: user.displayName,
+                    isAdmin:false
+                }});
+            alert("Succesfully logged in!");        
+        }).catch((error) => {
+            console.log("Billie", error);
+            alert("Could not log in!");
+        })
     }
 
     const logOut = () => {
@@ -34,7 +49,7 @@ const TopBar = (props) => {
                 {props.loggedIn ? 
                     <> 
                     <i class="fa fa-user-circle" aria-hidden="true"></i> <span>Welcome {state.loggedUserDisplayName} </span> 
-                    </> : <Link style={{textDecoration:"none", fontSize:"18px", color:"white"}} to="/login"><i class="fa fa-sign-in" aria-hidden="true"></i>Login</Link>
+                    </> : <MenuLink style={{textDecoration:"none", fontSize:"18px", color:"white"}} onClick={login}><i class="fa fa-sign-in" aria-hidden="true"></i>Login</MenuLink>
                 } 
                 {props.loggedIn ? 
                     <Dropdown>
