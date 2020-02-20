@@ -171,13 +171,13 @@ input[type="file"] {
 }
 
 .smallIcon{
-  font-size: 16px;
-  color:gray;
+  font-size: 8px;
+  color:white;
   margin-left:5px;
 }
 
 .smallIcon:hover{
-  color:#fa2a2a;
+  color:#00447c;
   transform: scale(1.2);
 }
 

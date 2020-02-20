@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {COLORS} from "../../../utils/colors";
 import {device} from "../../../device/device";
 
 export const Header = styled.div`
@@ -70,7 +71,8 @@ export const CommentSectionContainer = styled.div`
 
 export const CommentContainer = styled.div` 
     width:100%;
-    border : 1px solid #00447c;
+    border : 1px solid #bfbfbf;
+    background : #F5F5F5;
     border-radius:6px;
     margin-top : 30px;
     overflow: auto;
@@ -79,7 +81,7 @@ export const CommentContainer = styled.div`
 
 export const CommentIcon = styled.i`
     float:left;
-    color:#00447c;
+    color:${COLORS.primary};
     margin-right: 10px;
     margin-bottom: 10px;
     font-size : 30px;
@@ -115,7 +117,6 @@ export const SmallTag = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    font-weight: bold;
     width: 50px;
     color:white;
     height: 20px;

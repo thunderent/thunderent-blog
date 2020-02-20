@@ -4,6 +4,7 @@ import AuthorCard from "./AuthorCard";
 import styled from 'styled-components';
 import {device} from "../../device/device.js";
 import {SocialIcon} from "./Styling/styles";
+import {COLORS} from "../../utils/colors";
 
 import BlogContext from "../../context/Context";
 
@@ -69,7 +70,7 @@ const MainPage = () => {
         <div>
             <div style={{height:"80px"}}></div>
             <TitleContainer>
-                <h2>Full-Stack Citizen</h2>
+                <h2>master of <span style={{color : COLORS.primary}}>SOME</span></h2>
                 <LinksContainer>
                     <SocialIcon className="fa fa-gamepad" aria-hidden="true"><a href="#"></a></SocialIcon>  
                     <SocialIcon className="fa fa-address-card" aria-hidden="true"><a href="#"></a></SocialIcon>

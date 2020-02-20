@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import {COLORS} from "../../../utils/colors";
 import {device} from "../../../device/device";
 
 export const EditLabel = styled.span`
     position: relative;
     top: -1em;
-    background: yellow;
+    background: ${COLORS.secondary};
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);

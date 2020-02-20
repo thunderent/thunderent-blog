@@ -4,6 +4,7 @@ import Dropdown from "./Dropdown.js";
 import {Link} from 'react-router-dom';
 import BlogContext from "../../context/Context";
 import {Container, MenuLink, Title} from "./Styling/TopBarStyling";
+import {COLORS} from "../../utils/colors";
 
 import "../../index.css";
 import 'font-awesome/css/font-awesome.min.css';
@@ -42,14 +43,14 @@ const TopBar = (props) => {
         <Container>
             <Link style={{display:"flex", textDecoration:"none"}} to="/">
                 <img id="mainLogo" src="http://jcagarcia.com/files/uploads/logo-placeholder@2x.png"></img>
-                <Title>Full-Stack Citizen Blog</Title>
+                <Title>master of <span style={{color:'#f46e30'}}>SOME</span></Title>
             </Link>
             
             <div className="smallMenu">
                 {props.loggedIn ? 
                     <> 
-                    <i class="fa fa-user-circle" aria-hidden="true"></i> <span>Welcome {state.loggedUserDisplayName} </span> 
-                    </> : <MenuLink style={{textDecoration:"none", fontSize:"18px", color:"white"}} onClick={login}><i class="fa fa-sign-in" aria-hidden="true"></i>Login</MenuLink>
+                    <i style={{color:COLORS.primary}} className="fa fa-user-circle" aria-hidden="true"></i> <span>Welcome, <span style={{color:COLORS.primary, fontWeight:'bold'}}>{state.loggedUserDisplayName}</span> </span> 
+                    </> : <MenuLink style={{textDecoration:"none", fontSize:"18px", color:COLORS.primary}} onClick={login}><i className="fa fa-sign-in" aria-hidden="true"></i>Login</MenuLink>
                 } 
                 {props.loggedIn ? 
                     <Dropdown>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 import {device} from "../../device/device";
+import {COLORS} from "../../utils/colors";
 import "../../index.css";
 
 const FooterContainer = styled.div`
@@ -62,7 +63,7 @@ const Footer = () => {
     return(
         <FooterContainer>
             <FooterSection>
-                <h2>Full-Stack Citizen</h2>
+                <h2>master of <span style={{color : COLORS.primary}}>SOME</span></h2>
                 <div className="links"> 
                     <a href="#">About</a>
                     <a href="#">Portfolio</a>

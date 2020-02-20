@@ -45,7 +45,7 @@ const AuthorCard = () => {
     return(
     <AuthorContainer>
         <img style={styles.authorImage} src="https://picsum.photos/id/144/200/200"></img>
-        <h3 style={styles.authorName}>Josh Morrison</h3>
+        <h3 style={styles.authorName}>Nechitelea Robert</h3>
         <p><small>Gravity in the space station. There are some clever ideas out there with the space stations of the future</small></p>
     </AuthorContainer>
     )
