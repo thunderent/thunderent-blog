@@ -1,6 +1,6 @@
 import * as React from "react";
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import {useReducer, useEffect} from 'react';
+import {useReducer, useState, useEffect} from 'react';
 
 
 import {BlogProvider} from "./context/Context.js";
@@ -12,14 +12,16 @@ import Footer from "./components/Footer/Footer";
 import Article from "./components/ArticlePage/Article";
 import ProtectedRoute from "./components/LoginPage/ProtectedRoute";
 import { auth,firestore } from "./firebase/index.js";
+import Loader from "./components/Loader/Loader.js";
 
 const blogReducer = (state,action) => {
   switch(action.type){
       case "GET_POSTS":
           return({...state, listOfArticles:action.payload});  
       case "TAG":
-          let _activePost = state.activePost;
-          _activePost.tag = action.payload;
+          console.log("here dispacthed", action.payload);
+          let _activePost = {...state.activePost, tag : action.payload};
+          console.log({...state, activePost:_activePost});
           return({...state, activePost:_activePost});
       case "THUMBNAIL":
           return({...state, thumbnailLink:action.payload});
@@ -124,6 +126,7 @@ const initialState = {
 
 const App = () => {
   const [state, dispatch] = useReducer(blogReducer,initialState);
+  const [showLoader, setShowLoader] = useState(true);
 
   //Get the tags
   useEffect(() => {
@@ -167,6 +170,7 @@ const App = () => {
             })
             console.log(console.log(doc));
             dispatch({type:"GET_POSTS", payload:listOfArticles});
+            setShowLoader(false);
         });
         
     });
@@ -200,7 +204,8 @@ const App = () => {
             <ProtectedRoute path="/dashboard/" exact component={Dashboard}></ProtectedRoute>
             <Route path="/article/:id" exact component={Article}></Route>
         </Router>
-    </div>
+        <Loader showLoader={showLoader}></Loader>
+      </div>
     <Footer></Footer>
     </BlogProvider>
   );

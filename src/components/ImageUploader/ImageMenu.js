@@ -16,9 +16,7 @@ const ImageMenu = (props) => {
                         <UploaderTitle>IMAGE UPLOADER</UploaderTitle>
                         <ImageMenuCloseButton onClick={props.closeFunction}>CLOSE</ImageMenuCloseButton>
                     </ImageMenuTopBar>
-                    
                     <ImageUploader/>
-
                     <ImageViewer/>
                 </ImageUploaderContainer>
             </ImagePickerOverlay>   

@@ -3,6 +3,7 @@ import PostCard from "./PostCard";
 import AuthorCard from "./AuthorCard";
 import styled from 'styled-components';
 import {device} from "../../device/device.js";
+import {SocialIcon} from "./Styling/styles";
 
 import BlogContext from "../../context/Context";
 
@@ -70,9 +71,9 @@ const MainPage = () => {
             <TitleContainer>
                 <h2>Full-Stack Citizen</h2>
                 <LinksContainer>
-                    <i class="fa fa-gamepad socialIcon" aria-hidden="true"><a href="#"></a></i>  
-                    <i class="fa fa-address-card socialIcon" aria-hidden="true"><a href="#"></a></i>
-                    <i class="fa fa-github socialIcon" aria-hidden="true"><a href="#"></a></i>      
+                    <SocialIcon className="fa fa-gamepad" aria-hidden="true"><a href="#"></a></SocialIcon>  
+                    <SocialIcon className="fa fa-address-card" aria-hidden="true"><a href="#"></a></SocialIcon>
+                    <SocialIcon className="fa fa-github" aria-hidden="true"><a href="#"></a></SocialIcon>      
                 </LinksContainer>
             </TitleContainer>
             <AuthorCard></AuthorCard>

@@ -38,6 +38,7 @@ export const CoverImage = styled.img`
 `;
 
 export const DetailsText = styled.p`
+    margin : 0px;
     @media ${device.mobile} { text-align:center; float : none; font-size:12px;}
     @media ${device.tablet} { text-align:center; float : none; font-size:12px;}
     @media ${device.laptop} { float : right; font-size:14px;}
@@ -107,3 +108,32 @@ export const styles = {
         background : "#f5f5f5" 
     }
 }
+
+export const SmallTag = styled.div`
+    background : ${props => props.color};
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    width: 50px;
+    color:white;
+    height: 20px;
+    text-align: center;
+    border-radius: 4px;
+    margin-left: 5px;
+`;
+
+export const ShareFacebookButton = styled.a`
+    background : #1877F2;
+    text-decoration : none;
+    font-weight : bold;   
+    padding : 5px;
+    border-radius : 4px;
+    color : white;
+    font-size : 10px;
+
+    &:hover{
+        background : #3488ef;
+    }
+`;

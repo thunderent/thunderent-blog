@@ -7,7 +7,7 @@ import * as sanitizeHtml from "sanitize-html-react";
 import AuthorCard from '../MainPage/AuthorCard';
 import CommentSection from './CommentSection';
 import * as utils from "../../utils/utils.js";
-import {Header,Title,ArticleContent,CoverImage,DetailsText,SmallDescription,ShareSection,styles} from "./Styling/ArticleStyling.js";
+import {Header,Title,ArticleContent,CoverImage,DetailsText,SmallDescription,ShareSection,styles, SmallTag, ShareFacebookButton} from "./Styling/ArticleStyling.js";
 import {serializeArticleForShare} from "../../utils/utils";
 
 //Markdown converter settings
@@ -27,6 +27,9 @@ const Article = () => {
         content : converter.makeHtml(activePost.content),
         readDuration : utils.calculateReadingTime(activePost.content)
     });
+
+    const displayedTagInfo = JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === blogContent.tag)[0] || {color:'', name:''};
+
 
     const [scrollHeight, setScrollHeight] = useState(0);   
     const opacity = Math.min(100 / scrollHeight, 1);
@@ -80,10 +83,12 @@ const Article = () => {
                         <SmallDescription>{blogContent.description}</SmallDescription>
                         <DetailsText>
                             <i>{new Date(blogContent.date).toDateString()} | {blogContent.readDuration} minutes read</i> 
-                            <TagElement tag={JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === blogContent.tag)[0]}/>
+                            <SmallTag color={displayedTagInfo.color}>
+                                <i>{displayedTagInfo.name}</i>
+                            </SmallTag>
                         </DetailsText>
                         <ShareSection>
-                                <a href={shareResultsToFacebook()} target="_blank">Share to facebook</a>
+                                <ShareFacebookButton href={shareResultsToFacebook()} target="_blank">Share to facebook</ShareFacebookButton>
                         </ShareSection>
                     </div>
                 </Header>

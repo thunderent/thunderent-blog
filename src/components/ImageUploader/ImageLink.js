@@ -9,12 +9,9 @@ const ImageLink = (props) => {
         setImageName(props.name);
     },[props.name]);
 
-    const deleteImage = () => {
-        console.log("Deleting this image :" + imageName);
-           
+    const deleteImage = () => {         
         let imageRef = storage.ref().child("images/"+ imageName);
         imageRef.delete().then(() => {
-
             firestore.collection('images').where("name","==",imageName).get().then(
                 result => result.forEach(e => {
                     e.ref.delete();
