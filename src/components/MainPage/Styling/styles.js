@@ -9,3 +9,10 @@ export const SocialIcon = styled.i`
         color : ${COLORS.primary};
     }
 `;
+
+export const SocialLink = styled.a`
+    text-decoration : none;
+    color : black;
+`;
+
+export const EditPostIcon = styled.i

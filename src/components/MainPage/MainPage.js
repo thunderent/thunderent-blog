@@ -3,7 +3,7 @@ import PostCard from "./PostCard";
 import AuthorCard from "./AuthorCard";
 import styled from 'styled-components';
 import {device} from "../../device/device.js";
-import {SocialIcon} from "./Styling/styles";
+import {SocialIcon, SocialLink} from "./Styling/styles";
 import {COLORS} from "../../utils/colors";
 
 import BlogContext from "../../context/Context";
@@ -72,9 +72,9 @@ const MainPage = () => {
             <TitleContainer>
                 <h2>master of <span style={{color : COLORS.primary}}>SOME</span></h2>
                 <LinksContainer>
-                    <SocialIcon className="fa fa-gamepad" aria-hidden="true"><a href="#"></a></SocialIcon>  
-                    <SocialIcon className="fa fa-address-card" aria-hidden="true"><a href="#"></a></SocialIcon>
-                    <SocialIcon className="fa fa-github" aria-hidden="true"><a href="#"></a></SocialIcon>      
+                    <SocialLink  target="_blank" href="https://thunderent.itch.io/dream-of-me"><SocialIcon className="fa fa-gamepad" aria-hidden="true"/></SocialLink>
+                    <SocialLink  target="_blank" href="https://robertnechitelea.com/"><SocialIcon className="fa fa-address-card" aria-hidden="true"/></SocialLink>
+                    <SocialLink  target="_blank" href="https://github.com/thunderent"><SocialIcon className="fa fa-github" aria-hidden="true"/></SocialLink>      
                 </LinksContainer>
             </TitleContainer>
             <AuthorCard></AuthorCard>

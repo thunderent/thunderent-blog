@@ -28,6 +28,7 @@ export const ThumbnailImage = styled.img`
     height:200px;
     object-fit:cover;
     width:100%;
+    border-radius: 4px;
 `;
 
 export const Article = styled.article`
