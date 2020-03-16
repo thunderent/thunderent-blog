@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import {COLORS} from "../../../utils/colors";
-import {device} from "../../../device/device";
 
 export const EditLabel = styled.span`
     position: relative;

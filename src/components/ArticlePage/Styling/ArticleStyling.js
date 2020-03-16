@@ -38,7 +38,7 @@ export const CoverImage = styled.img`
     @media ${device.desktop} { height:700px;} 
 `;
 
-export const DetailsText = styled.p`
+export const DetailsText = styled.div`
     margin : 0px;
     @media ${device.mobile} { text-align:center; float : none; font-size:12px;}
     @media ${device.tablet} { text-align:center; float : none; font-size:12px;}

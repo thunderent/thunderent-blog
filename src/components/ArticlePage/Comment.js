@@ -1,6 +1,5 @@
 import React from "react";
 import {CommentContainer, CommentIcon} from "./Styling/ArticleStyling";
-import "../../index.css";
 
 const Comment = (props) => {
     const { user, date, content } = props.comment;

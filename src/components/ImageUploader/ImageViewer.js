@@ -16,7 +16,6 @@ const ImageViewer = (props) => {
 ]);
 
     const x = useContext(BlogContext);
-    console.log(x);
 
     /*
     useEffect(() => {
@@ -25,7 +24,6 @@ const ImageViewer = (props) => {
     */
 
     const refresh = () => {
-        console.log("called");
         let images = []
         firestore.collection('images').get().then(querySnapshot => {
             querySnapshot.forEach(element => {
@@ -33,8 +31,6 @@ const ImageViewer = (props) => {
             })
             setImageList(images);   
         });  
-        console.log(images); 
-        console.log("Layout");
     }
 
 

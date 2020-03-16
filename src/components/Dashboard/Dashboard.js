@@ -18,7 +18,7 @@ let converter = new Showdown.Converter({
 });
 
 export const Dashboard = () => {
-  const {state, dispatch} = useContext(BlogContext);
+  const {state} = useContext(BlogContext);
 
   const [tab, setTab] = useState();
   const [postData, setPostData] = useState(
@@ -35,7 +35,6 @@ export const Dashboard = () => {
   const handleCoverChange = (event) => setPostData({...postData, mainCover : event.target.value});
   const handleCoverSourceChange = (event) => setPostData({...postData, mainCoverSource : event.target.value});
   const handleTagChange = (event) => setPostData({...postData, tag : event.target.value});
-
   const handleTabChange = (tab) => setTab(tab);
   
   const resetArticle = () => {
@@ -88,7 +87,6 @@ export const Dashboard = () => {
   }
 
   const isPostValid = (articleObject) => {
-    console.log(articleObject);
     let isValid = true;
     Object.keys(articleObject).forEach(function(key) {
         const value = articleObject[key];

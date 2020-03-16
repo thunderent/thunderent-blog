@@ -13,7 +13,6 @@ export const ImageUploader = (props) => {
         if(e.target.files[0]){
             const img = e.target.files[0];
             setImage(img);
-            console.log(image);
         }
     }
 

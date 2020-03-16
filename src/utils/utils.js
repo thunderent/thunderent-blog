@@ -3,7 +3,6 @@ export const calculateReadingTime = (text) => {
 };
 
 export const getIdFromCustomURL = (url) => {
-    console.log(url.indexOf("article"));
     return url.slice(url.indexOf("article")+8);
 };
 

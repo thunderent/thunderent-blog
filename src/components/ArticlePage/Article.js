@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from 'react';
-import TagElement from "../Tags/TagElement";
 import { firestore } from "../../firebase/index";
 import BlogContext from "../../context/Context";
 import * as Showdown from "showdown";
@@ -72,7 +71,7 @@ const Article = () => {
                    });
             });
         }
-    }, []);
+    }, [blogContent]);
     
     return(
         <div>

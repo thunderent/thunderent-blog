@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import BlogContext from "../../context/Context";
 import {Container, MenuLink, Title} from "./Styling/TopBarStyling";
 import {COLORS} from "../../utils/colors";
+import * as mainLogo from "../../images/mainLogo.png";
 
 import "../../index.css";
 import 'font-awesome/css/font-awesome.min.css';
@@ -28,7 +29,6 @@ const TopBar = (props) => {
                 }});
             alert("Succesfully logged in!");        
         }).catch((error) => {
-            console.log("Billie", error);
             alert("Could not log in!");
         })
     }
@@ -42,7 +42,7 @@ const TopBar = (props) => {
         <> 
         <Container>
             <Link style={{display:"flex", textDecoration:"none"}} to="/">
-                <img id="mainLogo" src="http://jcagarcia.com/files/uploads/logo-placeholder@2x.png"></img>
+                <img alt="Logo" id="mainLogo" src={mainLogo}></img>
                 <Title>master of <span style={{color:'#f46e30'}}>SOME</span></Title>
             </Link>
             

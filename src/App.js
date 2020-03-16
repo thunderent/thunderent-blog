@@ -2,7 +2,6 @@ import * as React from "react";
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import {useReducer, useState, useEffect} from 'react';
 
-
 import {BlogProvider} from "./context/Context.js";
 import "./components/Dashboard/Dashboard.js";
 import Dashboard from "./components/Dashboard/Dashboard.js";
@@ -19,9 +18,7 @@ const blogReducer = (state,action) => {
       case "GET_POSTS":
           return({...state, listOfArticles:action.payload});  
       case "TAG":
-          console.log("here dispacthed", action.payload);
           let _activePost = {...state.activePost, tag : action.payload};
-          console.log({...state, activePost:_activePost});
           return({...state, activePost:_activePost});
       case "THUMBNAIL":
           return({...state, thumbnailLink:action.payload});
@@ -40,70 +37,6 @@ const blogReducer = (state,action) => {
   }
 }
 
-/* TODO The initial state for the dashboard will be either set when creating new blog post or editing a current blog post
-    GET THE POST
-    {
-        title:"This is what happens when you don't pay taxes",
-        date:"01/01/2001",
-        thumbnail : "https://picsum.photos/id/960/800/500",
-        readDuration : 5,
-        description : "Are death and taxes the only two things certain in this world?",
-        content : "**We're not in Kansas anymore, Dorothy!**",
-        tag : "DEV",
-        mainCover : "https://picsum.photos/id/452/1920/1080",
-        mainCoverSource : "https://pixabay.com",
-        comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"}]
-       },
-     {
-      title:"This is just another blog post here tomato two",
-      date:"01/01/2001",
-      thumbnail : "https://picsum.photos/id/960/800/500",
-      readDuration : 5,
-      description : "Gravity in the space station. There are some clever ideas out there with the space stations of the future",
-      content : "**Hello,worldly people!**lofkjhfglkjhglkfjghkhkljhlkjh ksjhdsalkjhdsjk",
-      tag : "TECH",
-      mainCover : "https://picsum.photos/id/452/1920/1080",
-      mainCoverSource : "https://pixabay.com",
-      comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"},{user:"Rix", date:"01/01/1996", content:"I commented here"}]
-     },
-     {
-      title:"This is just another blog post here apple two",
-      date:"01/01/2001",
-      thumbnail : "https://picsum.photos/id/960/800/500",
-      readDuration : 5,
-      description : "Just another blog article",
-      content : "**Hello,world!**",
-      tag : "LIFE",
-      mainCover : "https://picsum.photos/id/452/1920/1080",
-      mainCoverSource : "https://pixabay.com",
-      comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"},{user:"Rix", date:"01/01/1996", content:"I commented here"}]
-     },
-     {
-         title:"This is just another blog post here apple two",
-         date:"01/01/2001",
-         thumbnail : "https://picsum.photos/id/960/800/500",
-         readDuration : 5,
-         description : "Just another blog article",
-         content : "**Hello,world!**",
-         tag : "DEV",
-         mainCover : "https://picsum.photos/id/452/1920/1080",
-         mainCoverSource : "https://pixabay.com",
-         comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"},{user:"Rix", date:"01/01/1996", content:"I commented here"}]
-
-     },
-     {
-         title:"This is just another blog post here apple two",
-         date:"01/01/2001",
-         thumbnail : "https://picsum.photos/id/960/800/500",
-         readDuration : 5,
-         description : "Just another blog article",
-         content : "**Hello,world!**",
-         tag : "DEV",
-         mainCover : "https://picsum.photos/id/452/1920/1080",
-         mainCoverSource : "https://pixabay.com",
-         comments : [{user:"Rix", date:"01/01/1996", content:"I commented here"}]
-     } 
-*/
 const initialState = {
     loggedUserDisplayName : "",
     loggedIn : false,
@@ -122,7 +55,7 @@ const initialState = {
         mainCoverSource : "",
         comments : []
      }
-}
+};
 
 const App = () => {
   const [state, dispatch] = useReducer(blogReducer,initialState);
@@ -168,7 +101,6 @@ const App = () => {
                 id:doc.id,
                 ...doc.data()
             })
-            console.log(console.log(doc));
             dispatch({type:"GET_POSTS", payload:listOfArticles});
             setShowLoader(false);
         });
@@ -190,7 +122,6 @@ const App = () => {
             });
           })
         } else {
-          console.log("jnope");
           dispatch({type:"LOGOUT", payload:false});
         }
       });

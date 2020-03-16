@@ -7,7 +7,7 @@ import {firestore} from "../../firebase/index";
 
 
 import BlogContext from "../../context/Context";
-import {Title, Article, ThumbnailImage, IconsArea, EditLabel, MobileTag} from "./Styling/PostCardStyling";
+import {Title, Article, ThumbnailImage, IconsArea, EditLabel} from "./Styling/PostCardStyling";
 
 
 const PostCard = (props) => {
@@ -38,15 +38,15 @@ const PostCard = (props) => {
                             <Title>{title}</Title>
                             <p style={{margin:0}} ><small>{description}</small></p>
                             <IconsArea>
-                                <small style={{color:"gray"}}>{props.article.comments.length}<i class="fa fa-comment" aria-hidden="true"></i></small>
+                                <small style={{color:"gray"}}>{props.article.comments.length}<i className="fa fa-comment" aria-hidden="true"></i></small>
                             </IconsArea>
 
-                            <p><small><i>{new Date(date).toDateString()} • {readDuration} minutes read <i class="fa fa-star" aria-hidden="true"></i></i></small></p>                            
+                            <p><small><i>{new Date(date).toDateString()} • {readDuration} minutes read <i className="fa fa-star" aria-hidden="true"></i></i></small></p>                            
                     </Article>
                
                     {state.isAdmin ? 
                         <EditLabel>  
-                            <i  onClick={() => editArticle()} className="fa fa-pencil smallIcon" aria-hidden="true"></i>  
+                            <i onClick={() => editArticle()} className="fa fa-pencil smallIcon" aria-hidden="true"></i>  
                             <i onClick={() => deleteArticle()} className="fa fa-trash smallIcon" aria-hidden="true"></i>
                         </EditLabel> : null
                     }       

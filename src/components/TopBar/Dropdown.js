@@ -8,7 +8,7 @@ const Dropdown = (props) => {
 
     return(
         <div style={{display:"inline"}}>
-            <DropdownBtn onClick={toggleMenu}><i style={{color:"white"}} class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></i></DropdownBtn>
+            <DropdownBtn onClick={toggleMenu}><i style={{color:"white"}} className="fa fa-ellipsis-v fa-lg" aria-hidden="true"></i></DropdownBtn>
             {visible ? <Container onClick={toggleMenu}>{props.children}</Container> : null}        
         </div>
     )
