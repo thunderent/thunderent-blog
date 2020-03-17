@@ -59,7 +59,7 @@ const TopBar = (props) => {
                             <MenuLink onClick={() => dispatch({type:"CREATE_POST"})}><Link style={{textDecoration:"none", color:"black"}} to="/dashboard/" ><i className="fa fa-plus-circle" aria-hidden="true"></i>Create Post</Link></MenuLink> 
                             <MenuLink onClick={() => setImageMenuDisplayStatus(true)}><i className="fa fa-picture-o" aria-hidden="true">Image Uploader</i></MenuLink>
                         </React.Fragment> : null}
-                        <MenuLink onClick={() => logOut()} ><Link style={{textDecoration:"none", color:"black"}} to="/"><i style={{color:"red"}} class="fa fa-sign-out" aria-hidden="true">Logout</i></Link></MenuLink>
+                        <MenuLink onClick={() => logOut()} ><Link style={{textDecoration:"none", color:"black"}} to="/"><i style={{color:"red"}} className="fa fa-sign-out" aria-hidden="true">Logout</i></Link></MenuLink>
                     </Dropdown> : null
                 }         
             </div>

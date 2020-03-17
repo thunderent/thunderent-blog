@@ -4,24 +4,14 @@ import {firestore} from '../../firebase';
 import "../../index.css";
 
 import {ImageViewerContainer, RefreshButton} from "./Styling/styles";
-import BlogContext from "../../context/Context";
 import 'font-awesome/css/font-awesome.min.css';
 
 import ImageLink from "./ImageLink";
-const ImageViewer = (props) => {
-    const [imageList, setImageList] = useState([{name:"image", url:"https://picsum.photos/id/1025/50/50"},
-    {name:"image", url:"https://picsum.photos/id/1025/50/50"},
-    {name:"image", url:"https://picsum.photos/id/1025/50/50"},
-    {name:"image", url:"https://picsum.photos/id/1025/50/50"}
-]);
-
-    const x = useContext(BlogContext);
-
-    /*
+const ImageViewer = () => {
+    const [imageList, setImageList] = useState([]);
     useEffect(() => {
         refresh();
-    },[])
-    */
+    },[]);
 
     const refresh = () => {
         let images = []

@@ -25,8 +25,7 @@ export const ImageUploader = (props) => {
         (error) => {
             alert("Upload failed", error);
         }, 
-        () => {
-            
+        () => {        
             storage.ref('images').child(image.name).getDownloadURL().then(url => {
                     firestore.collection("images").add({url: url, name : image.name});
                     if(props.saveUploadedUrlToState) dispatch({type:"THUMBNAIL", payload:url});      
