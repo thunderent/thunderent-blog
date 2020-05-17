@@ -6,6 +6,7 @@ import * as sanitizeHtml from "sanitize-html-react";
 import AuthorCard from '../MainPage/AuthorCard';
 import CommentSection from './CommentSection';
 import * as utils from "../../utils/utils.js";
+import {withRouter} from 'react-router-dom';
 import {Header,Title,ArticleContent,CoverImage,DetailsText,SmallDescription,ShareSection,styles, SmallTag, ShareFacebookButton} from "./Styling/ArticleStyling.js";
 import {serializeArticleForShare} from "../../utils/utils";
 
@@ -17,7 +18,7 @@ let converter = new Showdown.Converter({
     tasklists: true
   });
 
-const Article = () => {
+const Article = ({history}) => {
     const {state} = useContext(BlogContext);
 
     const {activePost} = state;
@@ -63,12 +64,21 @@ const Article = () => {
             let linkId = utils.getIdFromCustomURL(window.location.href);
             firestore.collection("posts").doc(linkId).get().then(data => {
                    let receivedData = data.data();
-                   setBlogContent({
-                    ...receivedData,
-                    id : linkId,
-                    content:converter.makeHtml(receivedData.content),
-                    readDuration : utils.calculateReadingTime(receivedData.content) 
-                   });
+                   if(receivedData){
+                    setBlogContent({
+                        ...receivedData,
+                        id : linkId,
+                        content:converter.makeHtml(receivedData.content),
+                        readDuration : utils.calculateReadingTime(receivedData.content) 
+                    });
+                    }
+                    else{
+                        alert("There was an error loading the article data");
+                        history.push('/');
+                    }
+            },() => {
+                alert("There was an error loading the article data");
+                history.push('/');
             });
         }
     }, [blogContent]);
@@ -112,4 +122,4 @@ const Article = () => {
 }
 
 
-export default Article;
+export default withRouter(Article);

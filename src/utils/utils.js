@@ -3,7 +3,12 @@ export const calculateReadingTime = (text) => {
 };
 
 export const getIdFromCustomURL = (url) => {
-    return url.slice(url.indexOf("article")+8);
+    let baseIndex = url.indexOf("article");
+    baseIndex+=8;
+
+    //Remove the fbclidID id when opening a link shared from facebook
+    const questionSeparatorIndex = url.indexOf("?");
+    return questionSeparatorIndex !== -1 ? url.slice(baseIndex, questionSeparatorIndex) : url.slice(baseIndex);
 };
 
 export const getCurrentDateTime = () => {
