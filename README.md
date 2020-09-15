@@ -1,10 +1,8 @@
 ## Description
 
-Work In Progress. 
-Project will be merged into the portofolio website after completion.
+The source code of the blog which can be found live at : https://masterofso.me/
 Usage of firebase services such as : Firestore, Storage, Firebase Authentication.
-
-Makes usage of basic React Hooks.
+.
 
 
 
