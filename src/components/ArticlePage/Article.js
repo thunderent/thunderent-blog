@@ -28,7 +28,7 @@ const Article = ({history}) => {
         readDuration : utils.calculateReadingTime(activePost.content)
     });
 
-    const displayedTagInfo = JSON.parse(localStorage.getItem("blog_tags")).tagList.filter(element => element.name === blogContent.tag)[0] || {color:'', name:''};
+    const displayedTagInfo = JSON.parse(localStorage.getItem("blog_tags"))?.tagList.filter(element => element.name === blogContent.tag)[0] || {color:'', name:''};
 
 
     const [scrollHeight, setScrollHeight] = useState(0);   
