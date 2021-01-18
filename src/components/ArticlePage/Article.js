@@ -50,9 +50,6 @@ const Article = ({history}) => {
     const shareResultsToFacebook = () => {
         const params = {
             u : window.location.href,
-            picture : blogContent.mainCover,
-            title : blogContent.title,
-            description : blogContent.description
         }
         const url = `https://www.facebook.com/sharer/sharer.php?${serializeArticleForShare(params)}`;
         return url;
